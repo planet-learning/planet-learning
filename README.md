@@ -13,13 +13,13 @@ Remarks :
 * Please ensure the use of Python 3.x everywhere
     * For Tensorflow, please use this image : 
     ```sh 
-    sudo docker pull tensorflow/tensorflow:latest-py3` 
+    docker pull tensorflow/tensorflow:latest-py3
     ```
 
 To verify the installation process :
 * for Tensorflow, use : 
 ```sh
-sudo docker run -u $(id -u):$(id -g) -it tensorflow/tensorflow:latest-py3 bash`
+docker run -u $(id -u):$(id -g) -it tensorflow/tensorflow:latest-py3 bash
 ```
 ## Launch
 
