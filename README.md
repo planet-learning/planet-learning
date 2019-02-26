@@ -11,14 +11,19 @@ In order to have everything working properly (on Ubuntu with intel x86x64 CPU an
 
 Remarks : 
 * Please ensure the use of Python 3.x everywhere
-    * For Tensorflow, please use this image : `sudo docker pull tensorflow/tensorflow:latest-py3` 
+    * For Tensorflow, please use this image : 
+    ```sh 
+    sudo docker pull tensorflow/tensorflow:latest-py3` 
+    ```
 
 To verify the installation process :
-* for Tensorflow, use : `sudo docker run -u $(id -u):$(id -g) -it tensorflow/tensorflow:latest-py3 bash`
-
+* for Tensorflow, use : 
+```sh
+sudo docker run -u $(id -u):$(id -g) -it tensorflow/tensorflow:latest-py3 bash`
+```
 ## Launch
 
-To launch a script :
+To launch a script (for instance here an hello-world script) :
 
 ```sh
 docker run -it --rm -v $PWD:/tmp -w /tmp tensorflow/tensorflow:latest-py3 python ./hello_world.py
