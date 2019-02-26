@@ -11,10 +11,10 @@ In order to have everything working properly (on Ubuntu with intel x86x64 CPU an
 
 Remarks : 
 * Please ensure the use of Python 3.x everywhere
-    * For Tensorflow, please use this image : `docker pull tensorflow/tensorflow:latest-py3` 
+    * For Tensorflow, please use this image : `sudo docker pull tensorflow/tensorflow:latest-py3` 
 
 To verify the installation process :
-* for Tensorflow, use : `docker run -u $(id -u):$(id -g) -it tensorflow/tensorflow:latest-py3 bash`
+* for Tensorflow, use : `sudo docker run -u $(id -u):$(id -g) -it tensorflow/tensorflow:latest-py3 bash`
 
 ## Launch
 
