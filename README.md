@@ -18,5 +18,10 @@ To verify the installation process :
 
 ## Launch
 
+To launch a script :
+
+```sh
+docker run -it --rm -v $PWD:/tmp -w /tmp tensorflow/tensorflow:latest-py3 python ./hello_world.py
+```
 
 
