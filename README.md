@@ -48,4 +48,8 @@ export TF_DOCKER_BUILD_CENTRAL_PIP_IS_LOCAL=1
 tensorflow/tools/docker/parameterized_docker_build.sh
 ```
 
-Done
+You can get the created image by pulling from dockerhub
+
+```sh
+docker pull proxyma/planet-learning:latest-py3
+```
