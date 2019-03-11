@@ -1,0 +1,8 @@
+version: '2.1'
+
+services:
+  planet-learning:
+    image: planet-learning
+    build: .
+    ports:
+      - 6006:6006
