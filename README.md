@@ -78,7 +78,7 @@ To install the project, clone it :
 git clone git@gitlab.viarezo.fr:Wanysteus/planet-learning.git
 ```
 
-In order to make it run on [TESS](https://fr.wikipedia.org/wiki/Transiting_Exoplanet_Survey_Satellite) data, you need to download it : please follow the instructions given [here]().
+In order to make it run on [TESS](https://fr.wikipedia.org/wiki/Transiting_Exoplanet_Survey_Satellite) data, you need to download it from [here](http://archive.stsci.edu/tess/bulk_downloads/bulk_downloads_ffi-tp-lc-dv.html).
 
 ### Running
 
