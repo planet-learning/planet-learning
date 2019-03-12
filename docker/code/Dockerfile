@@ -1,4 +1,5 @@
 # Pulls our image from the repo
+# Please change this line if using another custom image of Tensorflow you built
 FROM proxyma/planet-learning:latest-py3
 
 LABEL Name=planet-learning-code Version=0.0.1
