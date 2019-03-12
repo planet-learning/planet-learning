@@ -127,5 +127,4 @@ dmypy.json
 
 ### Tensorflow logs generated for tensorboard
 
-./tensorboard
-./tensorflow/
+tensorflow/*
