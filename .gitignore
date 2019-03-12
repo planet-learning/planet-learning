@@ -128,3 +128,7 @@ dmypy.json
 ### Tensorflow logs generated for tensorboard
 
 tensorflow/*
+
+### Data from TESS
+
+data/*
