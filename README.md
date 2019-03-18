@@ -75,7 +75,7 @@ docker run -it --rm -v $PWD:/tmp -w /tmp proxyma/planet-learning:latest-py3 pyth
 To install the project, clone it : 
 
 ```sh
-git clone git@gitlab.viarezo.fr:Wanysteus/planet-learning.git
+git clone git@github.com:planet-learning/planet-learning.git
 ```
 
 In order to make it run on [TESS](https://fr.wikipedia.org/wiki/Transiting_Exoplanet_Survey_Satellite) data, you need to download it from [here](http://archive.stsci.edu/tess/bulk_downloads/bulk_downloads_ffi-tp-lc-dv.html).
