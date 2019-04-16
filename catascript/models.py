@@ -43,7 +43,7 @@ class Catalog(Base):
 
     def __init__(self, value_fields_dict):
         """
-
+        Creates another entry in the database
         """
         for (key, value) in value_fields_dict.items():
             self.key = value
