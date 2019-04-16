@@ -1,6 +1,7 @@
 from sqlalchemy import Column, String, Integer, Numeric, DateTime, Boolean, ForeignKey, BigInteger, VARCHAR
 from sqlalchemy.orm import relationship
 
+from catascript.base import Base
 """
 Database classes
 """
@@ -25,21 +26,21 @@ class Catalog(Base):
 	[dec] [float] *
     """
     __tablename__="catalog"
-    self.ID = Column(BigInteger, primary_key = True)
-    self.version = Column("version", VARCHAR(8))
-    self.HIP = Column("HIP", Integer)
-    self.TYC = Column("TYC", VARCHAR(12))
-    self.UCAC = Column("UCAC", VARCHAR(10))
-    self.TWOMASS = Column("TWOMASS", VARCHAR(20))
-    self.SDSS = Column("SDSS", BigInteger)
-    self.ALLWISE = Column("ALLWISE", VARCHAR(20))
-    self.GAIA = Column("GAIA", VARCHAR(20))
-    self.APASS = Column("APASS", VARCHAR(30))
-    self.KIC = Column("KIC", Intege)
-    self.objType = Column("objType", VARCHAR(10))
-    self.typeSrc = Column("typeSrc", VARCHAR(10))
-    self.ra = Column("ra", Numeric)
-    self.dec = Column("dec", Numeric)
+    ID = Column(BigInteger, primary_key = True)
+    version = Column("version", VARCHAR(8))
+    HIP = Column("HIP", Integer)
+    TYC = Column("TYC", VARCHAR(12))
+    UCAC = Column("UCAC", VARCHAR(10))
+    TWOMASS = Column("TWOMASS", VARCHAR(20))
+    SDSS = Column("SDSS", BigInteger)
+    ALLWISE = Column("ALLWISE", VARCHAR(20))
+    GAIA = Column("GAIA", VARCHAR(20))
+    APASS = Column("APASS", VARCHAR(30))
+    KIC = Column("KIC", Integer)
+    objType = Column("objType", VARCHAR(10))
+    typeSrc = Column("typeSrc", VARCHAR(10))
+    ra = Column("ra", Numeric)
+    dec = Column("dec", Numeric)
 
     def __init__(self, value_fields_dict):
         """
