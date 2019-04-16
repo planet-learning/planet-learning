@@ -17,6 +17,7 @@ TODO :
     - make_dict_value_fields_from_catalog_line (catalog_line, list_of_db_fields) : makes dict of value_fields for this catalog line
 """
 
+#Loading functions
 def get_catalog_files():
     """
     Get all catalog filenames present in the data/catalog folder
@@ -26,14 +27,14 @@ def get_catalog_files():
     """
     #Get path and all file names
     data_root = os.getenv("DATA_ROOT")
-    catalog_path = data_root + "/catalog"
+    catalog_path = data_root + "/catalog/"
     file_names = os.listdir(catalog_path)
 
     #Extract the csv files
     catalog_files = []
     for file_name in file_names:
         if file_name.endswith(".csv"):
-            catalog_files.append(file_name)
+            catalog_files.append(catalog_path + file_name)
     
     #Results
     return catalog_files
@@ -48,6 +49,34 @@ def load_TICS_dict():
     extracted_TICS = os.getenv("PATH_TO_EXTRACTED_TICS")
     #TODO : add real loading of file and return it
 
+#Preprocessing function
+def preprocess_catalog_line(catalog_line):
+    """
+    Preprocess the given catalog line into a dict with (name of field in the database, value for this line) entries.
+
+    :param catalog_line:
+    :type catalog_line: list
+
+    :returns: the processed line
+    :returns: dict
+    """
+    #Getting fields (in order)
+    list_of_fields = os.getenv("LIST_DB_FIELDS")
+
+    #Creating dict 
+    catalog_line_dict = {}
+
+    #Adding values, taking into account missing ones
+    for (index, field) in enumerate(list_of_fields):
+        if catalog_line[index] != '':
+            catalog_line_dict[field] = catalog_line[index]
+        else:
+            catalog_line_dict[field] = None
+
+    #results
+    return catalog_line_dict
+
+#Checking functions
 def check_in_TICS_dict(TIC_in_catalog, TICS_dict):
     """
     This function checks for the existence of a specified TIC in the dictionnary of TICS of which we have a ligth curve 
@@ -82,6 +111,8 @@ def check_exists_other_ID(catalog_line):
     """
     pass
 
+
+#Database relation functions
 def initialize_database():
     """
     This function initializes a database with SQL Alchemy ; its model is located in catascript.base.Catalog
@@ -103,11 +134,15 @@ def add_entry_to_database(value_fields_dict):
     session.commit()
     session.close
 
+#Main function
 def catascript():
     """
     Builds a database containing the TESS ID (TIC), IDs for other missions, ra and dec value.
     It then fills it with the catalog entries that have a light curve (found in a previously extracted dictionnary) and other mission ID.
     """
+    #load environment variables
+    load_dotenv()
+
     #get catalog files
     catalog_files_list = get_catalog_files()
 
@@ -120,16 +155,21 @@ def catascript():
     #loop over catalog lines in catalog
     for catalog_file in catalog_files_list:
         with open(catalog_file, newline='') as catalog_csv:
-            catalog_reader = csv.reader(catalog_csv, delimiter=' ', quotechar='|')
+            catalog_reader = csv.reader(catalog_csv, delimiter=',', quotechar='|')
 
             #Iteration on each line of the csv file
-            for entry in catalog_reader:
-                print(entry)
-            #preprocess that line to put in a good format
-            #check if match with a TIC with known light curve
-                #check for existence of other missions IDs
-                    # make dict of value_fields for this catalog line
-                    # add entry to database
+            counter = 1
+            for catalog_line in catalog_reader:
+                while counter > 0:
+                    #preprocess that line to put in a good format
+                    catalog_line_values = preprocess_catalog_line(catalog_line)
+
+                    print(len(catalog_line_values))
+                    counter -= 1
+                    #check if match with a TIC with known light curve
+                        #check for existence of other missions IDs
+                            # make dict of value_fields for this catalog line
+                            # add entry to database
                 pass
         
     #close database editing if such thing is necessary
