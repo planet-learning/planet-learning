@@ -38,17 +38,15 @@ def get_catalog_files():
     #Results
     return catalog_files
 
-def load_TICS_dict(path):
+def load_TICS_dict():
     """
     This function loads the dictionnary of extracted TICS that have a ligth curve (it was extracted and stored by the extrattic module)
-
-    :param path: path to the saved dictionnary. It is specified in .env file.
-    :type path: str
 
     :returns: a dictionnary containing the (TIC, list of name_of_ligthcurve_file) pairs.
     :rtype: dict
     """
-    pass
+    extracted_TICS = os.getenv("PATH_TO_EXTRACTED_TICS")
+    #TODO : add real loading of file and return it
 
 def check_in_TICS_dict(TIC_in_catalog, TICS_dict):
     """
@@ -63,7 +61,11 @@ def check_in_TICS_dict(TIC_in_catalog, TICS_dict):
     :returns: (boolean indicating existence, value of the dict entry if existing)
     :rtype: (bool, (str, str list)) tuple
     """
-    pass
+    if TIC_in_catalog in TICS_dict.keys():
+        return( (True, TICS_dict[TIC_in_catalog]))
+
+    else:
+        return ( (False, ("", []))) #we return False and default values
 
 def check_exists_other_ID(catalog_line):
     """
@@ -104,18 +106,14 @@ def add_entry_to_database(value_fields_dict):
 def catascript():
     """
     Builds a database containing the TESS ID (TIC), IDs for other missions, ra and dec value.
-
-    It loads from the .env file :
-        - the path to the saved dictionnary of TIC IDs
-        - the list of fields to include in the database
-        - the engine url for the database
-
+    It then fills it with the catalog entries that have a light curve (found in a previously extracted dictionnary) and other mission ID.
     """
     #get catalog files
     catalog_files_list = get_catalog_files()
 
     #extract TICS_dict
-    #process list_of_db_fields (if needed)
+    #TICS_dict = load_TICS_dict()
+
     #inialize database
     initialize_database()
 
@@ -123,7 +121,10 @@ def catascript():
     for catalog_file in catalog_files_list:
         with open(catalog_file, newline='') as catalog_csv:
             catalog_reader = csv.reader(catalog_csv, delimiter=' ', quotechar='|')
-            for row in catalog_reader:
+
+            #Iteration on each line of the csv file
+            for entry in catalog_reader:
+                print(entry)
             #preprocess that line to put in a good format
             #check if match with a TIC with known light curve
                 #check for existence of other missions IDs
@@ -133,3 +134,6 @@ def catascript():
         
     #close database editing if such thing is necessary
     pass
+
+if __name__ == "__main__":
+    catascript()
