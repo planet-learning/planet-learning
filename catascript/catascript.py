@@ -2,6 +2,8 @@ import csv
 import os
 import numpy as np
 
+from dotenv import load_dotenv
+
 from catascript.base import Base, Session, engine
 from catascript.models import Catalog
 """
@@ -14,6 +16,27 @@ TODO :
     - preprocess_catalog_line(catalog_line) : takes in input a catalog_line as read from a catalog.csv, and outputs its content in a dict
     - make_dict_value_fields_from_catalog_line (catalog_line, list_of_db_fields) : makes dict of value_fields for this catalog line
 """
+
+def get_catalog_files():
+    """
+    Get all catalog filenames present in the data/catalog folder
+
+    :returns: the list of filenames
+    :rtype: list
+    """
+    #Get path and all file names
+    data_root = os.getenv("DATA_ROOT")
+    catalog_path = data_root + "/catalog"
+    file_names = os.listdir(catalog_path)
+
+    #Extract the csv files
+    catalog_files = []
+    for file_name in file_names:
+        if file_name.endswith(".csv"):
+            catalog_files.append(file_name)
+    
+    #Results
+    return catalog_files
 
 def load_TICS_dict(path):
     """
@@ -88,16 +111,25 @@ def catascript():
         - the engine url for the database
 
     """
-    #load engine_url
+    #get catalog files
+    catalog_files_list = get_catalog_files()
+
     #extract TICS_dict
     #process list_of_db_fields (if needed)
     #inialize database
+    initialize_database()
+
     #loop over catalog lines in catalog
-        #preprocess that line to put in a good format
-        #check if match with a TIC with known light curve
-            #check for existence of other missions IDs
-                # make dict of value_fields for this catalog line
-                # add entry to database
-    
+    for catalog_file in catalog_files_list:
+        with open(catalog_file, newline='') as catalog_csv:
+            catalog_reader = csv.reader(catalog_csv, delimiter=' ', quotechar='|')
+            for row in catalog_reader:
+            #preprocess that line to put in a good format
+            #check if match with a TIC with known light curve
+                #check for existence of other missions IDs
+                    # make dict of value_fields for this catalog line
+                    # add entry to database
+                pass
+        
     #close database editing if such thing is necessary
     pass
