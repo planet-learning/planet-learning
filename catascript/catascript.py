@@ -1,14 +1,16 @@
 import csv
+import os
 import numpy as np
-import sqlalchemy as db
 
+from catascript.base import Base, Session, engine
+from catascript.models import Catalog
 """
 catascript is a module that builds a SQL Alchemy database with specified database fields, with a primary key being the TESS id (TIC). 
 These TICs have the particularity of all having at least one corresponding light curve.
 
 
 TODO : 
-    - preprocess_list_of_db_fields(list_of_db_fields) : take as given by .env file, and builds a list of the fields
+    - preprocess_list_of_db_fields(list_of_db_fields) : takes as given by .env file, and builds a list of the fields
     - preprocess_catalog_line(catalog_line) : takes in input a catalog_line as read from a catalog.csv, and outputs its content in a dict
     - make_dict_value_fields_from_catalog_line (catalog_line, list_of_db_fields) : makes dict of value_fields for this catalog line
 """
@@ -55,18 +57,14 @@ def check_exists_other_ID(catalog_line):
     """
     pass
 
-def initialize_database(primary_key, list_of_db_fields):
+def initialize_database():
     """
-    This function initializes a database with SQL Alchemy, with a given list_of_db_fields and a specified primary_key among them.
-
-    :param primary_key: anme of the primary key field
-    :type primary_key: str
-    :param list_of_db_fields: list of all db fields to include
-    :type list_of_db_fields: str list
+    This function initializes a database with SQL Alchemy ; its model is located in catascript.base.Catalog
     """
-    pass
+    #instantiates database
+    Base.metadata.create_all(engine)
 
-def add_entry_to_database(value_fields_dict, list_of_db_fields):
+def add_entry_to_database(value_fields_dict):
     """
     This function adds a new value to the database. 
     It matches the list of all possible fields given with the keys of the value of fields dictionnary, 
@@ -74,22 +72,23 @@ def add_entry_to_database(value_fields_dict, list_of_db_fields):
 
     :param value_fields_dict: dictionary containing the value for each of the needed fields for that TIC entry.
     :type value_fields_dict: dict
-    :param list_of_db_fields: list of all db fields to include
-    :type list_of_db_fields: str list
     """
-    pass
+    session = Session()
+    Catalog(value_fields_dict)
+    session.commit()
+    session.close
 
-def catascript(path_to_TICS, list_of_db_fields):
+def catascript():
     """
     Builds a database containing the TESS ID (TIC), IDs for other missions, ra and dec value.
 
-    :param path: path to the saved dictionnary. It should be specified in the .env file, and loaded from it.
-    :type path: str
-    :param list_of_db_fields: list of all db fields to include. It should be specified in the .env file, and loaded from it.
-    :type list_of_db_fields: str list
+    It loads from the .env file :
+        - the path to the saved dictionnary of TIC IDs
+        - the list of fields to include in the database
+        - the engine url for the database
 
     """
-
+    #load engine_url
     #extract TICS_dict
     #process list_of_db_fields (if needed)
     #inialize database
