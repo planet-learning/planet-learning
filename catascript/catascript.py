@@ -12,9 +12,7 @@ These TICs have the particularity of all having at least one corresponding light
 
 
 TODO : 
-    - preprocess_list_of_db_fields(list_of_db_fields) : takes as given by .env file, and builds a list of the fields
-    - preprocess_catalog_line(catalog_line) : takes in input a catalog_line as read from a catalog.csv, and outputs its content in a dict
-    - make_dict_value_fields_from_catalog_line (catalog_line, list_of_db_fields) : makes dict of value_fields for this catalog line
+    - see catascript()
 """
 
 #Loading functions
@@ -157,7 +155,7 @@ def catascript():
     catalog_files_list = get_catalog_files()
 
     #extract TICS_dict
-    #TICS_dict = load_TICS_dict()
+    TICS_dict = load_TICS_dict()
 
     #inialize database
     initialize_database()
@@ -175,9 +173,15 @@ def catascript():
                     catalog_line_values = preprocess_catalog_line(catalog_line)
 
                     #check if match with a TIC with known light curve
-                    if check_in_TICS_dict(catalog_line_values):
+                    (TIC_in_dict, dict_values) = check_in_TICS_dict(catalog_line_values)
+                    if TIC_in_dict:
+
                         #check for existence of other missions IDs
-                        if check_exists_other_ID(catalog_line_values):
+                        (exists_other_ids, corresponding_ids) = check_exists_other_ID(catalog_line_values)
+                        if exists_other_ids:
+
+                            #TODO : add values extracted from the tic sotred dictionnary in the catalog line to be stored in the database
+
                             # add entry to database
                             add_entry_to_database(catalog_line_values)
 
