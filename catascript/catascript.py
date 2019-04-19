@@ -61,7 +61,7 @@ def preprocess_catalog_line(catalog_line):
     :returns: dict
     """
     #Getting fields (in order)
-    list_of_fields = os.getenv("LIST_DB_FIELDS")
+    list_of_fields = (os.getenv("LIST_DB_FIELDS")).split(',')
 
     #Creating dict 
     catalog_line_dict = {}
@@ -107,7 +107,7 @@ def check_exists_other_ID(catalog_line):
     :rtype: (bool, dict) tuple
     """
     #Getting the fields corresponding to ids
-    list_of_ids = os.getenv("OTHER_MISSIONS_IDS")
+    list_of_ids = (os.getenv("OTHER_MISSIONS_IDS")).split(',')
 
     #Dictionnary of found other ids
     found_ids = {}
@@ -168,13 +168,12 @@ def catascript():
             catalog_reader = csv.reader(catalog_csv, delimiter=',', quotechar='|')
 
             #Iteration on each line of the csv file
-            counter = 1
+            counter = 5
             for catalog_line in catalog_reader:
                 while counter > 0:
                     #preprocess that line to put in a good format
                     catalog_line_values = preprocess_catalog_line(catalog_line)
-
-                    print(len(catalog_line_values))
+                    print(catalog_line_values)
                     counter -= 1
                     #check if match with a TIC with known light curve
                         #check for existence of other missions IDs
