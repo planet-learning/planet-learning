@@ -101,16 +101,26 @@ def check_exists_other_ID(catalog_line):
     Checks if the given line has another ID than a TIC
 
     :param catalog_line: line of catalog currently being examined
-    :type catalog_line: list ?
+    :type catalog_line: dict
 
     :returns: boolean indicating at least one other ID found, (name of mission ID, ID) dictionnary of found IDs
     :rtype: (bool, dict) tuple
-
-    TODO : 
-        - define the type of catalog_line
     """
-    pass
+    #Getting the fields corresponding to ids
+    list_of_ids = os.getenv("OTHER_MISSIONS_IDS")
 
+    #Dictionnary of found other ids
+    found_ids = {}
+    flag = False
+
+    #Checks for the existence of other ids
+    for id_mission_name in list_of_ids:
+        if catalog_line[id_mission_name] != None:
+            flag = flag or True
+            found_ids[id_mission_name] = catalog_line[id_mission_name]
+    
+    #Results
+    return((flag, found_ids))
 
 #Database relation functions
 def initialize_database():
