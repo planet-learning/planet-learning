@@ -173,16 +173,17 @@ def catascript():
                 while counter > 0:
                     #preprocess that line to put in a good format
                     catalog_line_values = preprocess_catalog_line(catalog_line)
-                    print(catalog_line_values)
-                    counter -= 1
+
                     #check if match with a TIC with known light curve
+                    if check_in_TICS_dict(catalog_line_values):
                         #check for existence of other missions IDs
-                            # make dict of value_fields for this catalog line
+                        if check_exists_other_ID(catalog_line_values):
                             # add entry to database
-                pass
-        
-    #close database editing if such thing is necessary
-    pass
+                            add_entry_to_database(catalog_line_values)
+
+                    counter -= 1
+
+    print("Done : catascript")
 
 if __name__ == "__main__":
     catascript()
