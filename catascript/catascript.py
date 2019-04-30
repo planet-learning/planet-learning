@@ -1,6 +1,7 @@
 import csv
 import os
 import numpy as np
+import pickle 
 
 from dotenv import load_dotenv
 
@@ -44,8 +45,10 @@ def load_TICS_dict():
     :returns: a dictionnary containing the (TIC, list of name_of_ligthcurve_file) pairs.
     :rtype: dict
     """
-    extracted_TICS = os.getenv("PATH_TO_EXTRACTED_TICS")
-    #TODO : add real loading of file and return it
+    path_to_load = os.getenv("PATH_TO_EXTRACTED_TICS")
+    with open(path_to_load, 'rb') as pickle_dict:
+        dict_TICS = pickle.load(pickle_dict)
+    return dict_TICS
 
 #Preprocessing function
 def preprocess_catalog_line(catalog_line):
@@ -83,12 +86,15 @@ def check_in_TICS_dict(TIC_in_catalog, TICS_dict):
     :param TIC_in_catalog: the TIC we want to check
     :type TIC_in_catalog: str
     :param TICS_dict: the dict of extracted TICS given by load_TICS_dict
-    :type TICS_dict: dict
+    :type TICS_dict: {int: list} dict. The list is for taking into account repetitions of a TIC visualisation.
 
     :returns: (boolean indicating existence, value of the dict entry if existing)
-    :rtype: (bool, (str, str list)) tuple
+    :rtype: (bool, (str, {str dict} list)) tuple
     """
     if TIC_in_catalog in TICS_dict.keys():
+        print("----")
+        print(TICS_dict[TIC_in_catalog])
+        print("----")
         return( (True, TICS_dict[TIC_in_catalog]))
 
     else:
@@ -168,24 +174,25 @@ def catascript():
             #Iteration on each line of the csv file
             counter = 5
             for catalog_line in catalog_reader:
-                while counter > 0:
-                    #preprocess that line to put in a good format
-                    catalog_line_values = preprocess_catalog_line(catalog_line)
+                #preprocess that line to put in a good format
+                catalog_line_values = preprocess_catalog_line(catalog_line)
+                TIC_in_catalog = catalog_line_values["ID"]
 
-                    #check if match with a TIC with known light curve
-                    (TIC_in_dict, dict_values) = check_in_TICS_dict(catalog_line_values)
-                    if TIC_in_dict:
+                #check if match with a TIC with known light curve
+                (TIC_in_dict, dict_values) = check_in_TICS_dict(TIC_in_catalog, TICS_dict)
+                if TIC_in_dict:
 
-                        #check for existence of other missions IDs
-                        (exists_other_ids, corresponding_ids) = check_exists_other_ID(catalog_line_values)
-                        if exists_other_ids:
+                    #check for existence of other missions IDs
+                    (exists_other_ids, corresponding_ids) = check_exists_other_ID(catalog_line_values)
+                    if exists_other_ids:
 
-                            #TODO : add values extracted from the tic sotred dictionnary in the catalog line to be stored in the database
+                        # add values extracted from the tic stored dictionnary in the catalog line to be stored in the database
+                        catalog_line_values['SECTOR'] = dict_values[0]['SECTOR']
+                        catalog_line_values['path'] = dict_values[0]['path']
 
-                            # add entry to database
-                            add_entry_to_database(catalog_line_values)
+                        # add entry to database
+                        add_entry_to_database(catalog_line_values)
 
-                    counter -= 1
 
     print("Done : catascript")
 
