@@ -174,38 +174,45 @@ def catascript():
     initialize_database()
     print("Done.")
 
+    #get re_launch boolean
+    need_re_launch = int(os.getenv("RE_LAUNCH"))
 
-    #loop over catalog lines in catalog
-    for catalog_file in catalog_files_list:
-        with open(catalog_file, newline='') as catalog_csv:
-            catalog_reader = csv.reader(catalog_csv, delimiter=',', quotechar='|')
-            print("Processing : catalog {} ... ".format(catalog_file), end='')
-            
-            #Iteration on each line of the csv file
-            counter = 5
-            for catalog_line in catalog_reader:
-                #preprocess that line to put in a good format
-                catalog_line_values = preprocess_catalog_line(catalog_line)
-                TIC_in_catalog = catalog_line_values["ID"]
+    #check if a recompute is being asked
+    if need_re_launch:
+        #loop over catalog lines in catalog
+        for catalog_file in catalog_files_list:
+            with open(catalog_file, newline='') as catalog_csv:
+                catalog_reader = csv.reader(catalog_csv, delimiter=',', quotechar='|')
+                print("Processing : catalog {} ... ".format(catalog_file), end='')
+                
+                #Iteration on each line of the csv file
+                counter = 5
+                for catalog_line in catalog_reader:
+                    #preprocess that line to put in a good format
+                    catalog_line_values = preprocess_catalog_line(catalog_line)
+                    TIC_in_catalog = catalog_line_values["ID"]
 
-                #check if match with a TIC with known light curve
-                (TIC_in_dict, dict_values) = check_in_TICS_dict(TIC_in_catalog, TICS_dict)
-                if TIC_in_dict:
+                    #check if match with a TIC with known light curve
+                    (TIC_in_dict, dict_values) = check_in_TICS_dict(TIC_in_catalog, TICS_dict)
+                    if TIC_in_dict:
 
-                    #check for existence of other missions IDs
-                    (exists_other_ids, corresponding_ids) = check_exists_other_ID(catalog_line_values)
-                    if exists_other_ids:
+                        #check for existence of other missions IDs
+                        (exists_other_ids, corresponding_ids) = check_exists_other_ID(catalog_line_values)
+                        if exists_other_ids:
 
-                        # add values extracted from the tic stored dictionnary in the catalog line to be stored in the database
-                        catalog_line_values['SECTOR'] = dict_values[0]['SECTOR']
-                        catalog_line_values['path'] = dict_values[0]['path']
+                            # add values extracted from the tic stored dictionnary in the catalog line to be stored in the database
+                            catalog_line_values['SECTOR'] = dict_values[0]['SECTOR']
+                            catalog_line_values['path'] = dict_values[0]['path']
 
-                        # add entry to database
-                        add_entry_to_database(catalog_line_values)
+                            # add entry to database
+                            add_entry_to_database(catalog_line_values)
 
-            print("Processing {} : Done".format(catalog_file))
+                print("Processing {} : Done".format(catalog_file))
 
-    print("Done : catascript")
+        print("Done : catascript - recomputed entries")
+    
+    else:
+        print("Done : catascript - no new computing performed")
 
 if __name__ == "__main__":
     catascript()
