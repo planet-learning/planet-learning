@@ -4,16 +4,14 @@ import numpy as np
 import pickle 
 
 from dotenv import load_dotenv
+from sqlalchemy.exc import IntegrityError
+from psycopg2.errors import UniqueViolation
 
 from catascript.base import Base, Session, engine
 from catascript.models import Catalog
 """
 catascript is a module that builds a SQL Alchemy database with specified database fields, with a primary key being the TESS id (TIC). 
 These TICs have the particularity of all having at least one corresponding light curve.
-
-
-TODO : 
-    - see catascript()
 """
 
 #Loading functions
@@ -91,10 +89,9 @@ def check_in_TICS_dict(TIC_in_catalog, TICS_dict):
     :returns: (boolean indicating existence, value of the dict entry if existing)
     :rtype: (bool, (str, {str dict} list)) tuple
     """
+    TIC_in_catalog = int(TIC_in_catalog)
+
     if TIC_in_catalog in TICS_dict.keys():
-        print("----")
-        print(TICS_dict[TIC_in_catalog])
-        print("----")
         return( (True, TICS_dict[TIC_in_catalog]))
 
     else:
@@ -143,9 +140,15 @@ def add_entry_to_database(value_fields_dict):
     :param value_fields_dict: dictionary containing the value for each of the needed fields for that TIC entry.
     :type value_fields_dict: dict
     """
+    print("Values to add : {}".format(value_fields_dict))
     session = Session()
-    Catalog(value_fields_dict)
-    session.commit()
+    try:
+        new_entry = Catalog(value_fields_dict)
+        session.add(new_entry)
+        session.commit()
+    except (IntegrityError, UniqueViolation):
+        #There is already an entry in the database
+        pass
     session.close
 
 #Main function
@@ -154,6 +157,7 @@ def catascript():
     Builds a database containing the TESS ID (TIC), IDs for other missions, ra and dec value.
     It then fills it with the catalog entries that have a light curve (found in a previously extracted dictionnary) and other mission ID.
     """
+    print("Launching : catascript")
     #load environment variables
     load_dotenv()
 
@@ -161,16 +165,22 @@ def catascript():
     catalog_files_list = get_catalog_files()
 
     #extract TICS_dict
+    print("Loading : TICS dict ... ", end='')
     TICS_dict = load_TICS_dict()
+    print("Done.")
 
     #inialize database
+    print("Initializing : database ... ", end='')
     initialize_database()
+    print("Done.")
+
 
     #loop over catalog lines in catalog
     for catalog_file in catalog_files_list:
         with open(catalog_file, newline='') as catalog_csv:
             catalog_reader = csv.reader(catalog_csv, delimiter=',', quotechar='|')
-
+            print("Processing : catalog {} ... ".format(catalog_file), end='')
+            
             #Iteration on each line of the csv file
             counter = 5
             for catalog_line in catalog_reader:
@@ -193,6 +203,7 @@ def catascript():
                         # add entry to database
                         add_entry_to_database(catalog_line_values)
 
+            print("Processing {} : Done".format(catalog_file))
 
     print("Done : catascript")
 
