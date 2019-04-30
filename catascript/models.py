@@ -44,12 +44,11 @@ class Catalog(Base):
     ra = Column("ra", Numeric)
     dec = Column("dec", Numeric)
     SECTOR = Column("SECTOR", Integer)
-    path = Column("path", VARCHAR(60))
+    path = Column("path", VARCHAR(300))
 
     def __init__(self, value_fields_dict):
         """
         Creates another entry in the database
         """
         for (key, value) in value_fields_dict.items():
-            self.key = value
-            # setattr(self, key, value)
+            setattr(self, key, value)
