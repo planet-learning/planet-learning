@@ -24,6 +24,8 @@ class Catalog(Base):
 	[typeSrc] [varchar](10)
 	[ra] [float] *
 	[dec] [float] *
+    [SECTOR] [int] *
+    [path] [varchar 60]
     """
     __tablename__="catalog"
     ID = Column(BigInteger, primary_key = True)
@@ -41,6 +43,8 @@ class Catalog(Base):
     typeSrc = Column("typeSrc", VARCHAR(10))
     ra = Column("ra", Numeric)
     dec = Column("dec", Numeric)
+    SECTOR = Column("SECTOR", Integer)
+    path = Column("path", VARCHAR(60))
 
     def __init__(self, value_fields_dict):
         """
