@@ -140,7 +140,6 @@ def add_entry_to_database(value_fields_dict):
     :param value_fields_dict: dictionary containing the value for each of the needed fields for that TIC entry.
     :type value_fields_dict: dict
     """
-    print("Values to add : {}".format(value_fields_dict))
     session = Session()
     try:
         new_entry = Catalog(value_fields_dict)
