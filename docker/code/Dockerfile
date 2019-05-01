@@ -5,10 +5,10 @@ FROM proxyma/planet-learning:latest-py3
 LABEL Name=planet-learning-code Version=0.0.1
 
 #setting the working directory and adding access to the data
-WORKDIR /planet-learning
-COPY requirements.txt /planet-learning/
+WORKDIR /planet-learning/code
+COPY requirements.txt /planet-learning/code
 
 # Pip-install of the requirements, if any:
 RUN python3 -m pip install -r requirements.txt
 
-CMD ["python3", "-m", "hello_world_with_summaries"]
+CMD ["python3", "-u","-m",  "catascript.catascript"]
