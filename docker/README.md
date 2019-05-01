@@ -10,6 +10,8 @@ There is two Dockerfiles for the project, one for the tensorboard service, anoth
    ├── README.md
    ├── code
    │   └── Dockerfile
+   ├── database
+   │   └── Dockerfile
    └── tensorboard
        └── Dockerfile
 ```
