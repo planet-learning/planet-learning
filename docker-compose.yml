@@ -2,9 +2,7 @@ version: '3.4'
 
 services:
   planet-learning-database:
-    build:
-      context: ./
-      dockerfile: ./docker/database/Dockerfile
+    image: postgres
     ports: 
       - 5432:5432
     environment:
@@ -34,3 +32,5 @@ services:
       - type: bind
         source: /nfs/planet-learning
         target: /planet-learning/data
+    depends_on:
+      - planet-learning-database
