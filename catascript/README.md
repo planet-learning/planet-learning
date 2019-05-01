@@ -14,47 +14,24 @@ cp .env.template .env
 
 Then open the new `.env` file, and file out the right value for your setup.
 
+#### Launch boolean environment variable
+
+The `.env` file, you can set the boolean **RE_LAUNCH** to either `1` to entail a complete recompute of `catascript`, or to `0`, in order to only re-initialize the database. This is true whatever way of launching is chosen.
+
+### Data root environment variable
+
+in order to be able to launch catascript as part of a processed launched by `docker-compose`, as described in the `README` of the project's main folder, the **DATA_ROOT** specified in `.env` must indicate the location of the data folder comparatively to the code volume.
+
+This means, if taking into consideration the structure given in `docker-compose.yml`, we need to have : 
+
+```
+DATA_ROOT = ./../data
+PATH_TO_EXTRACTED_TICS = ./../data/processed/dict_TIC.pickle
+```
+
 ### Prerequisites
-In order to execute *catascript*, you need to have the results of the extrattic script stored in `./data/processed.dict_TIC.pickle`.
+In order to be able to execute *catascript*, you need to have the results of the extrattic script stored at the location given by the **PATH_TO_EXTRACTED_TICS** environment variable. If not available, the program will fail.
 
-You also need to have a running `postgresql` database as defined by the Dockerfile in `../docker/database/Dockerfile` and `../docker-compose.yml`
-
-## Launching catascript
-
-### Allowing launch boolean
-
-As defined in `.env` file, you can set the boolean **RE_LAUNCH** to either `1` to entail a complete recompute of `catascript`, or to `0`, in order to only re-initialize the database. This is true whatever way of launching is chosen.
-
-### As standalone
-It is a good idea to setup a `virtualenv` before running the script for the first time. To do so, run in the main folder :
-
-```sh
-mkdir env
-virtualenv env/
-source ./env/bin/activate
-pip install -r requirements.txt
-```
-
-Then to run it, activate your virtualenv and run the script as a module : 
-
-```sh
-source ./env/bin/activate
-python -m catascript.catascript
-```
-
-### With docker-compose
-
-If not already the case, build the dockers by running the following in the main project folder `catascript` : 
-
-```sh
-docker-compose build
-```
-
-Then run them with : 
-
-```sh
-docker-compose up
-```
 ## Structure
 
 The structure of the module is as follows : 
