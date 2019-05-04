@@ -1,19 +1,19 @@
 import os
 import pickle
 from os.path import isdir, isfile, join
-
 import matplotlib.pyplot as plt
 import numpy as np
 from astropy.io import fits
 from dotenv import load_dotenv
 
-
 load_dotenv()
 
 
 DATA_ROOT = os.getenv('DATA_ROOT')
-light_curves_path = DATA_ROOT + "/light_curves"
-processed_dir_path = DATA_ROOT + "/processed"
+LIGHT_CURVES_DIR = os.getenv('LIGHT_CURVES_DIR')
+PROCESSED_DIR = os.getenv('PROCESSED_DIR')
+light_curves_path = join(DATA_ROOT, LIGHT_CURVES_DIR)
+processed_dir_path = join(DATA_ROOT, PROCESSED_DIR)
 
 
 def save_to_pickle(data):
@@ -47,28 +47,48 @@ def get_light_curve_metadata(light_curve_path):
     # This exception is raised when reading a corrupted file
     except OSError :
         TICID = None
-        print(light_curve_path)
 
     return TICID, metadata
 
 
-def get_light_curves(light_curves_path):
-    sector_dirs = [d for d in os.listdir(light_curves_path) if isdir(join(light_curves_path, d))]
-
+def get_light_curves(light_curves_path, verbose=True):
+    sector_dirs = sorted([d for d in os.listdir(light_curves_path) if isdir(join(light_curves_path, d))])
     light_curves = {}
+
+    if verbose:
+        print("")
+        print("#############################################")
+        print("#### Extract TIC from light curves files ####")
+        print("#############################################")
+        print("")
+        print("The following observation sectors are available :")
+        print((" - {}\n"*len(sector_dirs)).format(*sector_dirs))
+        print("")
 
     for sector in sector_dirs:
         sector_dir_path = join(light_curves_path, sector)
+        light_curve_files = [f for f in os.listdir(sector_dir_path) if isfile(join(sector_dir_path, f))]
 
-        for light_curve in os.listdir(sector_dir_path):
+        if verbose:
+            print("")
+            print("Starting {}".format(sector))
+            print("Number of light curves found : {}".format(len(light_curve_files)))
+            print("")
+        
+        for light_curve in light_curve_files:
             light_curve_path = join(sector_dir_path, light_curve)
-            if isfile(light_curve_path):
-                TICID, metadata = get_light_curve_metadata(light_curve_path)
-                metadata['path'] = light_curve_path
-                if TICID in light_curves:
-                    light_curves[TICID] += [metadata]
-                else:
-                    light_curves[TICID] = [metadata]
+
+            TICID, metadata = get_light_curve_metadata(light_curve_path)
+            metadata['path'] = light_curve_path
+
+            if TICID in light_curves:
+                light_curves[TICID] += [metadata]
+            else:
+                light_curves[TICID] = [metadata]
+            
+            if verbose:
+                if not 'SECTOR' in metadata:
+                    print("error : {}".format(light_curve_path))
 
     return light_curves
 

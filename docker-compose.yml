@@ -1,21 +1,24 @@
-version: '3.4'
+version: '3.7'
 
 services:
-  planet-learning-tensorboard:
-    build:
-      context: ./
-      dockerfile: ./docker/tensorboard/Dockerfile
-    ports:
-      - 6006:6006
-    volumes:
-      - type: bind
-        source: ./
-        target: /planet-learning
+  # planet-learning-tensorboard:
+  #   build:
+  #     context: ./
+  #     dockerfile: ./docker/tensorboard/Dockerfile
+  #   ports:
+  #     - 6006:6006
+  #   volumes:
+  #     - type: bind
+  #       source: ./
+  #       target: /planet-learning
   planet-learning-code:
     build:
       context: ./
       dockerfile: ./docker/code/Dockerfile
     volumes:
       - type: bind
+        source: /nfs/planet-learning
+        target: /planet-learning/data
+      - type: bind
         source: ./
-        target: /planet-learning
+        target: /planet-learning/code
