@@ -72,6 +72,7 @@ def get_light_curve_metadata(light_curve_path):
 def get_light_curves(light_curves_path, verbose=True):
     sector_dirs = sorted([d for d in os.listdir(light_curves_path) if isdir(join(light_curves_path, d))])
     light_curves = {}
+    lc_number = 0
 
     logging.info("#############################################")
     logging.info("#### Extract TIC from light curves files ####")
@@ -83,9 +84,10 @@ def get_light_curves(light_curves_path, verbose=True):
         e = 0
         sector_dir_path = join(light_curves_path, sector)
         light_curve_files = [f for f in os.listdir(sector_dir_path) if isfile(join(sector_dir_path, f))]
+        lc_in_sector = len(light_curve_files)
 
         logging.info("Starting {}".format(sector))
-        logging.info("Number of light curves file found : {}".format(len(light_curve_files)))
+        logging.info("Number of light curves file found : {}".format(lc_in_sector))
         
         for light_curve in light_curve_files:
             light_curve_path = join(sector_dir_path, light_curve)
@@ -103,8 +105,18 @@ def get_light_curves(light_curves_path, verbose=True):
             else:
                 e += 1
         
+        lc_number += n
+
         logging.info("Number of light curves added : {}".format(n))
         logging.info("Number of light curves not added : {}".format(e))
+    
+    # The number of observed objects is the number of entries in the light_curves dictionary minus one because the key "None" holds the paths to corrupted files
+    object_number = len(light_curves) - 1
+
+    logging.info("Finished extracting data")
+    logging.info("Light curve files processed : {}".format(lc_number))
+    logging.info("Number of objects observed : {}".format(object_number))
+
 
     return light_curves
 
