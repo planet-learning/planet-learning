@@ -11,4 +11,4 @@ COPY requirements.txt /planet-learning/code
 # Pip-install of the requirements, if any:
 RUN python3 -m pip install -r requirements.txt
 
-CMD ["python3", "-u", "-m", "extracttic.extracttic"]
+CMD ["python3", "-m", "extracttic.extracttic"]

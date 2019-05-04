@@ -1,12 +1,25 @@
+import logging
 import os
 import pickle
 from os.path import isdir, isfile, join
+
 import matplotlib.pyplot as plt
 import numpy as np
 from astropy.io import fits
 from dotenv import load_dotenv
 
 load_dotenv()
+
+
+if not isdir('log'):
+        os.mkdir('log')
+
+logging.basicConfig(
+    filename='log/extracttic.log',
+    level=logging.DEBUG,
+    format='%(asctime)s %(levelname)s: %(message)s',
+    datefmt='%Y-%m-%d %H:%M:%S'
+)
 
 
 DATA_ROOT = os.getenv('DATA_ROOT')
@@ -22,8 +35,11 @@ def save_to_pickle(data):
         os.mkdir(processed_dir_path)
     
     # Write the data into a pickle file
-    with open(processed_dir_path + "/dict_TIC.pickle", 'wb') as p:
+    logging.info("Saving data")
+    save_path = join(processed_dir_path, "dict_TIC.pickle")
+    with open(save_path, 'wb') as p:
         pickle.dump(data, p)
+    logging.info("Data saved in {}".format(save_path))
 
 
 def get_light_curve_metadata(light_curve_path):
@@ -45,7 +61,9 @@ def get_light_curve_metadata(light_curve_path):
             metadata['SECTOR'] = hdulist[0].header['SECTOR']
             metadata['TICVER'] = hdulist[0].header['TICVER']
     # This exception is raised when reading a corrupted file
-    except OSError :
+    except (OSError, Exception) as e:
+        logging.warning("Unreadable file : {}".format(light_curve_path))
+        logging.warning("Unreadable file : {}".format(e))
         TICID = None
 
     return TICID, metadata
@@ -55,25 +73,19 @@ def get_light_curves(light_curves_path, verbose=True):
     sector_dirs = sorted([d for d in os.listdir(light_curves_path) if isdir(join(light_curves_path, d))])
     light_curves = {}
 
-    if verbose:
-        print("")
-        print("#############################################")
-        print("#### Extract TIC from light curves files ####")
-        print("#############################################")
-        print("")
-        print("The following observation sectors are available :")
-        print((" - {}\n"*len(sector_dirs)).format(*sector_dirs))
-        print("")
+    logging.info("#############################################")
+    logging.info("#### Extract TIC from light curves files ####")
+    logging.info("#############################################")
+    logging.info("The following observation sectors are available : {}".format(" | ".join(sector_dirs)))
 
     for sector in sector_dirs:
+        n = 0
+        e = 0
         sector_dir_path = join(light_curves_path, sector)
         light_curve_files = [f for f in os.listdir(sector_dir_path) if isfile(join(sector_dir_path, f))]
 
-        if verbose:
-            print("")
-            print("Starting {}".format(sector))
-            print("Number of light curves found : {}".format(len(light_curve_files)))
-            print("")
+        logging.info("Starting {}".format(sector))
+        logging.info("Number of light curves file found : {}".format(len(light_curve_files)))
         
         for light_curve in light_curve_files:
             light_curve_path = join(sector_dir_path, light_curve)
@@ -86,15 +98,19 @@ def get_light_curves(light_curves_path, verbose=True):
             else:
                 light_curves[TICID] = [metadata]
             
-            if verbose:
-                if not 'SECTOR' in metadata:
-                    print("error : {}".format(light_curve_path))
+            if 'SECTOR' in metadata:
+                n += 1
+            else:
+                e += 1
+        
+        logging.info("Number of light curves added : {}".format(n))
+        logging.info("Number of light curves not added : {}".format(e))
 
     return light_curves
 
 
 if __name__ == '__main__':
     light_curves = get_light_curves(light_curves_path)
-    # print(light_curves)
+    # logging.info(light_curves)
 
     save_to_pickle(light_curves)
