@@ -25,7 +25,7 @@ in order to be able to launch catascript as part of a processed launched by `doc
 This means, if taking into consideration the structure given in `docker-compose.yml`, we need to have : 
 
 ```
-DATA_ROOT = ./../data
+DATA_ROOT = /planet-learning/data
 PATH_TO_EXTRACTED_TICS = /planet-learning/data/processed/dict_TIC.pickle
 ```
 
