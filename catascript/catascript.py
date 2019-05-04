@@ -185,7 +185,6 @@ def catascript():
                 print("Processing : catalog {} ... ".format(catalog_file), end='')
                 
                 #Iteration on each line of the csv file
-                counter = 5
                 for catalog_line in catalog_reader:
                     #preprocess that line to put in a good format
                     catalog_line_values = preprocess_catalog_line(catalog_line)
