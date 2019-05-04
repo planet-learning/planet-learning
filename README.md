@@ -48,7 +48,7 @@ export TF_DOCKER_BUILD_CENTRAL_PIP_IS_LOCAL=1
 
 tensorflow/tools/docker/parameterized_docker_build.sh
 ```
-Please note that we provide those steps to ease the process, but the oficial documentation of Tensorflow is the reference on this matter : you can find it [here](https://github.com/tensorflow/tensorflow/tree/master/tensorflow/tools/docker)
+Please note that we provide those steps to ease the process, but the oficial documentation of Tensorflow is the reference on this matter : you can find it [here](https://github.com/tensorflow/tensorflow/tree/master/tensorflow/tools/dockerfiles)
 
 You can then push your newly built image to Dockerhub by following the instructions provided [here](https://docs.docker.com/docker-hub/repos/)
 

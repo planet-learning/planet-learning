@@ -132,3 +132,6 @@ tensorflow/*
 ### Data from TESS
 
 data/*
+
+###Vscode
+.vscode

@@ -1,6 +1,15 @@
 version: '3.4'
 
 services:
+  planet-learning-database:
+    image: postgres
+    ports: 
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: learning
+      POSTGRES_USER: planet
+      POSTGRES_DB: planet-learning-postgresql
+  
   planet-learning-tensorboard:
     build:
       context: ./
@@ -11,6 +20,7 @@ services:
       - type: bind
         source: ./
         target: /planet-learning
+  
   planet-learning-code:
     build:
       context: ./
@@ -18,4 +28,9 @@ services:
     volumes:
       - type: bind
         source: ./
-        target: /planet-learning
+        target: /planet-learning/code
+      - type: bind
+        source: /nfs/planet-learning
+        target: /planet-learning/data
+    depends_on:
+      - planet-learning-database
