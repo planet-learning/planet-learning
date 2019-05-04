@@ -26,7 +26,7 @@ This means, if taking into consideration the structure given in `docker-compose.
 
 ```
 DATA_ROOT = ./../data
-PATH_TO_EXTRACTED_TICS = ./../data/processed/dict_TIC.pickle
+PATH_TO_EXTRACTED_TICS = /planet-learning/data/processed/dict_TIC.pickle
 ```
 
 ### Prerequisites
