@@ -48,7 +48,8 @@ export TF_DOCKER_BUILD_CENTRAL_PIP_IS_LOCAL=1
 
 tensorflow/tools/docker/parameterized_docker_build.sh
 ```
-Please note that we provide those steps to ease the process, but the oficial documentation of Tensorflow is the reference on this matter : you can find it [here](https://github.com/tensorflow/tensorflow/tree/master/tensorflow/tools/docker)
+
+Please note that we provide those steps to ease the process, but the oficial documentation of Tensorflow is the reference on this matter : you can find it [here](https://github.com/tensorflow/tensorflow/tree/master/tensorflow/tools/dockerfiles)
 
 You can then push your newly built image to Dockerhub by following the instructions provided [here](https://docs.docker.com/docker-hub/repos/)
 
@@ -75,7 +76,7 @@ docker run -it --rm -v $PWD:/tmp -w /tmp proxyma/planet-learning:latest-py3 pyth
 To install the project, clone it : 
 
 ```sh
-git clone git@gitlab.viarezo.fr:Wanysteus/planet-learning.git
+git clone git@github.com:planet-learning/planet-learning.git
 ```
 
 In order to make it run on [TESS](https://fr.wikipedia.org/wiki/Transiting_Exoplanet_Survey_Satellite) data, you need to download it from [here](http://archive.stsci.edu/tess/bulk_downloads/bulk_downloads_ffi-tp-lc-dv.html).
