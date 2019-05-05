@@ -25,6 +25,7 @@ The structure of the `.env` file should be the following :
 DATA_ROOT = /path/to/data/folder #/planet-learning/data
 LIGHT_CURVES_DIR = name_of_the_folder_containing the light_curves #light_curves
 PROCESSED_DIR = name_of_the_folder_containing the processed_data #processed
+EXTRACTED_TICS_FILE = name_of_the_file_holding_the_extracted_tic_data #dict_TIC.pickle
 ```
 
 In the example, the data is structured like the following :
@@ -39,6 +40,9 @@ In the example, the data is structured like the following :
         └── dict_TIC.pickle
 ```
 
+### Requirements
+
+Light curves '.fits' files from TESS must be present in the `LIGHT_CURVES_DIR` directory.
 
 ## Folder structure
 
