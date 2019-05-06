@@ -133,5 +133,6 @@ tensorflow/*
 
 data/*
 
-###Vscode
-.vscode
+### VSCode config 
+
+.vscode/
