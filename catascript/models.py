@@ -26,6 +26,7 @@ class Catalog(Base):
 	[dec] [float] *
     [SECTOR] [int] *
     [path] [varchar 60]
+    [already_confirmed] [boolean]
     """
     __tablename__="catalog"
     ID = Column(BigInteger, primary_key = True)
@@ -45,10 +46,15 @@ class Catalog(Base):
     dec = Column("dec", Numeric)
     SECTOR = Column("SECTOR", Integer)
     path = Column("path", VARCHAR(300))
+    already_confirmed = Column("already_confirmed", Boolean)
 
     def __init__(self, value_fields_dict):
         """
         Creates another entry in the database
         """
+        #Setting the attributes
         for (key, value) in value_fields_dict.items():
             setattr(self, key, value)
+        
+        #Initializes already_confirmed attribute to false for latter processing
+        self.already_confirmed = False

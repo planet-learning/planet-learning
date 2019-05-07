@@ -9,6 +9,7 @@ from psycopg2.errors import UniqueViolation
 
 from catascript.base import Base, Session, engine
 from catascript.models import Catalog
+from catascript.confirmed import process_confirmed
 """
 catascript is a module that builds a SQL Alchemy database with specified database fields, with a primary key being the TESS id (TIC). 
 These TICs have the particularity of all having at least one corresponding light curve.
@@ -206,6 +207,9 @@ def catascript():
                             add_entry_to_database(catalog_line_values)
 
                 print("Processing {} : Done".format(catalog_file))
+
+        #Processing confirmed catalog
+        process_confirmed()
 
         print("Done : catascript - recomputed entries")
     
