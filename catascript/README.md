@@ -35,7 +35,8 @@ This is an example of values for the other environment variables :
 ```
 LIST_DB_FIELDS = ID,version,HIP,TYC,UCAC,TWOMASS,SDSS,ALLWISE,GAIA,APASS,KIC,objType,typeSrc,ra,dec
 OTHER_MISSIONS_IDS = HIP,TYC,UCAC,TWOMASS,SDSS,ALLWISE,GAIA,APASS,KIC
-LIST_CONFIRMED_FIELDS = Host name,Planet Letter,Planet Name,Discovery Method,Controversial flag,Number planets in system,Ra_sex,Dec_sex,Ra_deg,Dec_deg,HIP Name,Proper Motion (ra), Proper Motion(dec)
+LIST_CONFIRMED_FIELDS = Host name,Planet Letter,Planet Name,Discovery Method,Controversial flag,Number planets in system,Ra_sex,Ra_deg,Dec_sex,Dec_deg,,HIP Name,Proper Motion (ra),Proper Motion(dec)
+NB_ROWS_HEADER = 26
 ENGINE_URL = postgresql://planet:learning@planet-learning-database/planet-learning-postgresql
 RE_LAUNCH = 1
 ```
