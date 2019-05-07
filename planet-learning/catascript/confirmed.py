@@ -1,12 +1,13 @@
 import csv
+import logging
 import os
+import pickle
+
 import numpy as np
-import pickle 
 
-from dotenv import load_dotenv
+from .base import Base, Session, engine
+from .models import Catalog
 
-from catascript.base import Base, Session, engine
-from catascript.models import Catalog
 
 """
 catascript.confirmed updates the already_confirmed attribute of the database build by catascript by looking up to the confirmed exoplanets catalog.
@@ -61,9 +62,9 @@ def checks_star_exists_in_database_and_update(processed_catalog_line):
 
         #Database modifications
         if search_for_HIP:
-            print("____")
-            print("HIP : Modifying entryf for : {}".format(processed_catalog_line))
-            print("____")
+            logging.info("____")
+            logging.info("HIP : Modifying entryf for : {}".format(processed_catalog_line))
+            logging.info("____")
             search_for_HIP[0].already_confirmed = True
              
     #Else, we search by ra and dec (in degrees in the database)
@@ -77,9 +78,9 @@ def checks_star_exists_in_database_and_update(processed_catalog_line):
 
         #Database modifications
         if (search_for_Dec_and_Ra):
-            print("____")
-            print("Dec ; Ra : Modifying entry for : {}".format(processed_catalog_line))
-            print("____")
+            logging.info("____")
+            logging.info("Dec ; Ra : Modifying entry for : {}".format(processed_catalog_line))
+            logging.info("____")
             search_for_Dec_and_Ra[0].already_confirmed = True
              
     session.commit()
@@ -90,7 +91,7 @@ def process_confirmed():
     This function processes the confirmed exoplanets catalog
 
     """
-    print("Processing : catascript, confirmed catalog")
+    logging.info("Processing : catascript, confirmed catalog")
     #get the file
     catalog_file = os.getenv("PATH_TO_CONFIRMED_CATALOG")
     #get the number of rows in header (skipped in the processing)
@@ -109,9 +110,9 @@ def process_confirmed():
             processed_catalog_line = preprocess_catalog_line(catalog_line)
             checks_star_exists_in_database_and_update(processed_catalog_line)
         
-    #print number of confirmed systems are in database
+    #logging.info number of confirmed systems are in database
 
-    print("Done : catascript, confirmed catalog")
+    logging.info("Done : catascript, confirmed catalog")
 
 if __name__ == "__main__":
     process_confirmed()
