@@ -1,7 +1,7 @@
 from sqlalchemy import Column, String, Integer, Numeric, DateTime, Boolean, ForeignKey, BigInteger, VARCHAR
 from sqlalchemy.orm import relationship
 
-from catascript.base import Base
+from .base import Base
 """
 Database classes
 """

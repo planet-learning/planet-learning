@@ -1,15 +1,17 @@
 import csv
 import os
+import pickle
+from os.path import join
+
 import numpy as np
-import pickle 
-
 from dotenv import load_dotenv
-from sqlalchemy.exc import IntegrityError
 from psycopg2.errors import UniqueViolation
+from sqlalchemy.exc import IntegrityError
 
-from catascript.base import Base, Session, engine
-from catascript.models import Catalog
-from catascript.confirmed import process_confirmed
+from .base import Base, Session, engine
+from .confirmed import process_confirmed
+from .models import Catalog
+
 """
 catascript is a module that builds a SQL Alchemy database with specified database fields, with a primary key being the TESS id (TIC). 
 These TICs have the particularity of all having at least one corresponding light curve.
@@ -44,7 +46,8 @@ def load_TICS_dict():
     :returns: a dictionnary containing the (TIC, list of name_of_ligthcurve_file) pairs.
     :rtype: dict
     """
-    path_to_load = os.getenv("PATH_TO_EXTRACTED_TICS")
+
+    path_to_load = join(os.getenv("DATA_ROOT"), os.getenv("PROCESSED_DIR"), os.getenv("EXTRACTED_TICS_FILE"))
     with open(path_to_load, 'rb') as pickle_dict:
         dict_TICS = pickle.load(pickle_dict)
     return dict_TICS
