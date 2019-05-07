@@ -18,9 +18,9 @@ Then open the new `.env` file, and file out the right value for your setup.
 
 The `.env` file, you can set the boolean **RE_LAUNCH** to either `1` to entail a complete recompute of `catascript`, or to `0`, in order to only re-initialize the database. This is true whatever way of launching is chosen.
 
-### Data root environment variable
+#### Data root environment variable
 
-in order to be able to launch catascript as part of a processed launched by `docker-compose`, as described in the `README` of the project's main folder, the **DATA_ROOT** specified in `.env` must indicate the location of the data folder comparatively to the code volume.
+In order to be able to launch catascript as part of a processed launched by `docker-compose`, as described in the `README` of the project's main folder, the **DATA_ROOT** specified in `.env` must indicate the location of the data folder comparatively to the code volume.
 
 This means, if taking into consideration the structure given in `docker-compose.yml`, we need to have : 
 
@@ -28,6 +28,16 @@ This means, if taking into consideration the structure given in `docker-compose.
 DATA_ROOT = /planet-learning/data
 PATH_TO_EXTRACTED_TICS = /planet-learning/data/processed/dict_TIC.pickle
 PATH_TO_CONFIRMED_CATALOG = /planet-learning/data/confirmed/confirmed_catalog.csv
+```
+#### Other environment variables
+
+This is an example of values for the other environment variables : 
+```
+LIST_DB_FIELDS = ID,version,HIP,TYC,UCAC,TWOMASS,SDSS,ALLWISE,GAIA,APASS,KIC,objType,typeSrc,ra,dec
+OTHER_MISSIONS_IDS = HIP,TYC,UCAC,TWOMASS,SDSS,ALLWISE,GAIA,APASS,KIC
+LIST_CONFIRMED_FIELDS = Host name,Planet Letter,Planet Name,Discovery Method,Controversial flag,Number planets in system,Ra_sex,Dec_sex,Ra_deg,Dec_deg,HIP Name,Proper Motion (ra), Proper Motion(dec)
+ENGINE_URL = postgresql://planet:learning@planet-learning-database/planet-learning-postgresql
+RE_LAUNCH = 1
 ```
 
 ### Prerequisites
@@ -40,6 +50,7 @@ The structure of the module is as follows :
 ```sh
 ├── base.py
 ├── catascript.py
+├── confirmed.py
 ├── __init__.py
 ├── models.py
 └── README.md
@@ -49,3 +60,4 @@ Please note that :
 * `base.py` contains the tools for SqlAlchemy database
 * `models.py` defines the structure of the database
 * `catascript.py` is the actual script performing on the catalog
+* `confirmed.py` is the script checking if database entries match with confirmed exoplanets
