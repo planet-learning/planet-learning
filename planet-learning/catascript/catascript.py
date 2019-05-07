@@ -1,10 +1,10 @@
 import csv
+import logging
 import os
 import pickle
 from os.path import join
 
 import numpy as np
-from dotenv import load_dotenv
 from psycopg2.errors import UniqueViolation
 from sqlalchemy.exc import IntegrityError
 
@@ -160,22 +160,20 @@ def catascript():
     Builds a database containing the TESS ID (TIC), IDs for other missions, ra and dec value.
     It then fills it with the catalog entries that have a light curve (found in a previously extracted dictionnary) and other mission ID.
     """
-    print("Launching : catascript")
-    #load environment variables
-    load_dotenv()
+    logging.info("Launching : catascript")
 
     #get catalog files
     catalog_files_list = get_catalog_files()
 
     #extract TICS_dict
-    print("Loading : TICS dict ... ", end='')
+    logging.info("Loading : TICS dict ... ")
     TICS_dict = load_TICS_dict()
-    print("Done.")
+    logging.info("Done.")
 
     #inialize database
-    print("Initializing : database ... ", end='')
+    logging.info("Initializing : database ... ")
     initialize_database()
-    print("Done.")
+    logging.info("Done.")
 
     #get re_launch boolean
     need_re_launch = int(os.getenv("RE_LAUNCH"))
@@ -186,7 +184,7 @@ def catascript():
         for catalog_file in catalog_files_list:
             with open(catalog_file, newline='') as catalog_csv:
                 catalog_reader = csv.reader(catalog_csv, delimiter=',', quotechar='|')
-                print("Processing : catalog {} ... ".format(catalog_file), end='')
+                logging.info("Processing : catalog {} ... ".format(catalog_file))
                 
                 #Iteration on each line of the csv file
                 for catalog_line in catalog_reader:
@@ -209,15 +207,15 @@ def catascript():
                             # add entry to database
                             add_entry_to_database(catalog_line_values)
 
-                print("Processing {} : Done".format(catalog_file))
+                logging.info("Processing {} : Done".format(catalog_file))
 
         #Processing confirmed catalog
         process_confirmed()
 
-        print("Done : catascript - recomputed entries")
+        logging.info("Done : catascript - recomputed entries")
     
     else:
-        print("Done : catascript - no new computing performed")
+        logging.info("Done : catascript - no new computing performed")
 
 if __name__ == "__main__":
     catascript()

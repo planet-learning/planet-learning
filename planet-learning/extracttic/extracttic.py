@@ -18,21 +18,6 @@ from os.path import isdir, isfile, join
 import matplotlib.pyplot as plt
 import numpy as np
 from astropy.io import fits
-from dotenv import load_dotenv
-
-load_dotenv()
-
-
-# Create the directory to store the logs on first run
-if not isdir('log'):
-        os.mkdir('log')
-# Configuration of the logging module
-logging.basicConfig(
-    filename='log/extracttic.log',
-    level=logging.DEBUG,
-    format='%(asctime)s %(levelname)s: %(message)s',
-    datefmt='%Y-%m-%d %H:%M:%S'
-)
 
 
 def save_to_pickle(data, path):
