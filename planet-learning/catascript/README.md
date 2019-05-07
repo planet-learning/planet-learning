@@ -30,7 +30,8 @@ This means, if taking into consideration the structure given in `docker-compose.
 DATA_ROOT=/planet-learning/data
 PROCESSED_DIR=processed
 EXTRACTED_TICS_FILE=dict_TIC.pickle
-PATH_TO_CONFIRMED_CATALOG=/planet-learning/data/confirmed/confirmed_catalog.csv
+CONFIRMED_DIR=name_of_the_folder_containing_the_confirmed_planets #confirmed
+CONFIRMED_CATALOG_FILE=name_of_the_file_holding_the_confirmed_planets #transit_confirmed_planets_2019.05.06_09.47.23.csv
 ```
 
 #### Other environment variables

@@ -2,6 +2,7 @@ import csv
 import logging
 import os
 import pickle
+from os.path import join
 
 import numpy as np
 
@@ -93,7 +94,7 @@ def process_confirmed():
     """
     logging.info("Processing : catascript, confirmed catalog")
     #get the file
-    catalog_file = os.getenv("PATH_TO_CONFIRMED_CATALOG")
+    catalog_file = join(os.getenv("DATA_ROOT"), os.getenv("CONFIRMED_DIR"), os.getenv("CONFIRMED_CATALOG_FILE"))
     #get the number of rows in header (skipped in the processing)
     nb_rows_header = os.getenv("NB_ROWS_HEADER")
 
