@@ -9,6 +9,9 @@ services:
       POSTGRES_PASSWORD: learning
       POSTGRES_USER: planet
       POSTGRES_DB: planet-learning-postgresql
+    restart: unless-stopped
+    volumes:
+      - /planet-learning/postgres-data:/var/lib/postgresql/data
   planet-learning-tensorboard:
     build:
       context: ./
