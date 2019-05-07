@@ -1,7 +1,7 @@
 # Catascript
 
 A module that builds a SQL Alchemy database with specified database fields, with a primary key being the TESS id (TIC). 
-These TICs have the particularity of all having at least one corresponding light curve, as given by extracttic
+These TICs have the particularity of all having at least one corresponding light curve, as given by extracttic. It also processes the catalog of confirmed planets to update this field of the database ofr the corresponding entries.
 
 ## Getting started
 
@@ -17,6 +17,8 @@ Then open the new `.env` file, and file out the right value for your setup.
 #### Launch boolean environment variable
 
 The `.env` file, you can set the boolean **RE_LAUNCH** to either `1` to entail a complete recompute of `catascript`, or to `0`, in order to only re-initialize the database. This is true whatever way of launching is chosen.
+
+The user should note that the processing of confirmed planets is only performed at the end of a complete recompute of `catascript`.
 
 #### Data root environment variable
 
