@@ -27,20 +27,23 @@ In order to be able to launch catascript as part of a processed launched by `doc
 This means, if taking into consideration the structure given in `docker-compose.yml`, we need to have : 
 
 ```
-DATA_ROOT = /planet-learning/data
-PATH_TO_EXTRACTED_TICS = /planet-learning/data/processed/dict_TIC.pickle
-PATH_TO_CONFIRMED_CATALOG = /planet-learning/data/confirmed/confirmed_catalog.csv
+DATA_ROOT=/planet-learning/data
+PROCESSED_DIR=processed
+EXTRACTED_TICS_FILE=dict_TIC.pickle
+PATH_TO_CONFIRMED_CATALOG=/planet-learning/data/confirmed/confirmed_catalog.csv
 ```
+
 #### Other environment variables
 
 This is an example of values for the other environment variables : 
+
 ```
-LIST_DB_FIELDS = ID,version,HIP,TYC,UCAC,TWOMASS,SDSS,ALLWISE,GAIA,APASS,KIC,objType,typeSrc,ra,dec
-OTHER_MISSIONS_IDS = HIP,TYC,UCAC,TWOMASS,SDSS,ALLWISE,GAIA,APASS,KIC
-LIST_CONFIRMED_FIELDS = Host name,Planet Letter,Planet Name,Discovery Method,Controversial flag,Number planets in system,Ra_sex,Ra_deg,Dec_sex,Dec_deg,,HIP Name,Proper Motion (ra),Proper Motion(dec)
-NB_ROWS_HEADER = 26
-ENGINE_URL = postgresql://planet:learning@planet-learning-database/planet-learning-postgresql
-RE_LAUNCH = 1
+LIST_DB_FIELDS=ID,version,HIP,TYC,UCAC,TWOMASS,SDSS,ALLWISE,GAIA,APASS,KIC,objType,typeSrc,ra,dec
+OTHER_MISSIONS_IDS=HIP,TYC,UCAC,TWOMASS,SDSS,ALLWISE,GAIA,APASS,KIC
+LIST_CONFIRMED_FIELDS=Host name,Planet Letter,Planet Name,Discovery Method,Controversial flag,Number planets in system,Ra_sex,Ra_deg,Dec_sex,Dec_deg,,HIP Name,Proper Motion (ra),Proper Motion(dec)
+NB_ROWS_HEADER=26
+ENGINE_URL=postgresql://planet:learning@planet-learning-database/planet-learning-postgresql
+RE_LAUNCH=1
 ```
 
 ### Prerequisites
