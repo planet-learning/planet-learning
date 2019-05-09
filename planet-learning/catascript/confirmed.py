@@ -63,9 +63,8 @@ def checks_star_exists_in_database_and_update(processed_catalog_line):
 
         #Database modifications
         if search_for_HIP:
-            logging.info("____")
-            logging.info("HIP : Modifying entryf for : {}".format(processed_catalog_line))
-            logging.info("____")
+            logging.info(" ")
+            logging.info("HIP : \n Modifying entry for : {}".format(processed_catalog_line))
             search_for_HIP[0].already_confirmed = True
              
     #Else, we search by ra and dec (in degrees in the database)
@@ -79,9 +78,8 @@ def checks_star_exists_in_database_and_update(processed_catalog_line):
 
         #Database modifications
         if (search_for_Dec_and_Ra):
-            logging.info("____")
-            logging.info("Dec ; Ra : Modifying entry for : {}".format(processed_catalog_line))
-            logging.info("____")
+            logging.info(" ")
+            logging.info("Dec/Ra : \n Modifying entry for : {}".format(processed_catalog_line))
             search_for_Dec_and_Ra[0].already_confirmed = True
              
     session.commit()
