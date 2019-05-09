@@ -17,5 +17,4 @@ COPY requirements.txt /planet-learning/code
 RUN python3 -m pip install -r requirements.txt
 
 #Running the program
-CMD ["python3", "-m", "extracttic.extracttic"]
-#CMD ["/wait-for-it/wait-for-it.sh", "planet-learning-database:5432", "--", "python3", "-u","-m",  "catascript.catascript"]
+CMD ["/wait-for-it/wait-for-it.sh", "planet-learning-database:5432", "--", "python3", "-u","-m",  "planet-learning.main"]
