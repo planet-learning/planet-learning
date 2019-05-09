@@ -61,9 +61,8 @@ def checks_star_exists_in_database_and_update(processed_catalog_line):
 
         #Database modifications
         if search_for_HIP:
-            print("____")
-            print("HIP : Modifying entryf for : {}".format(processed_catalog_line))
-            print("____")
+            print(" ")
+            print("HIP : \n Modifying entry for : {}".format(processed_catalog_line))
             search_for_HIP[0].already_confirmed = True
              
     #Else, we search by ra and dec (in degrees in the database)
@@ -77,9 +76,8 @@ def checks_star_exists_in_database_and_update(processed_catalog_line):
 
         #Database modifications
         if (search_for_Dec_and_Ra):
-            print("____")
-            print("Dec ; Ra : Modifying entry for : {}".format(processed_catalog_line))
-            print("____")
+            print(" ")
+            print("Dec/Ra : \n Modifying entry for : {}".format(processed_catalog_line))
             search_for_Dec_and_Ra[0].already_confirmed = True
              
     session.commit()
