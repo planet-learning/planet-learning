@@ -30,8 +30,16 @@ services:
       - type: bind
         source: ./
         target: /planet-learning/code
-      - type: bind
-        source: /nfs/planet-learning
+      - type: volume
+        source: data
         target: /planet-learning/data
     depends_on:
       - planet-learning-database
+
+volumes:
+  data:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=10.52.131.123       # IP of nfs server.  This is also where you put any options '-o' in standard option format
+      device: ":/media/nfs/planet-learning"  # location on nfs server of file/dir you want to mount
