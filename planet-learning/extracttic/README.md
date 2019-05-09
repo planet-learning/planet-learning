@@ -40,6 +40,8 @@ In the example, the data is structured like the following :
         └── dict_TIC.pickle
 ```
 
+>Keep in mind that no space can be present around the "=" sign between the variable name and its value in the `.env` file since it is used by docker and by python
+
 ### Requirements
 
 Light curves '.fits' files from TESS must be present in the `LIGHT_CURVES_DIR` directory.

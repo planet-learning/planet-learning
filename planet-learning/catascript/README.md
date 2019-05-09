@@ -14,6 +14,8 @@ cp .env.template .env
 
 Then open the new `.env` file, and file out the right value for your setup.
 
+>Keep in mind that no space can be present around the "=" sign between the variable name and its value in the `.env` file since it is used by docker and by python
+
 #### Launch boolean environment variable
 
 The `.env` file, you can set the boolean **RE_LAUNCH** to either `1` to entail a complete recompute of `catascript`, or to `0`, in order to only re-initialize the database. This is true whatever way of launching is chosen.
