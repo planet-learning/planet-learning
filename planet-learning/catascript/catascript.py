@@ -201,16 +201,19 @@ def catascript():
         #Processing confirmed catalog
         process_confirmed()
 
+        #Logging stats about the database entries
+        display_stats()
+        
         logging.info("Done : catascript - recomputed entries")
     
     else:
         #Processing only confirmed catalog
         process_confirmed()
 
-        logging.info("Done : catascript - no new computing performed")
+        #Logging stats about the database entries
+        display_stats()
 
-    #Logging stats about the database entries
-    display_stats()
+        logging.info("Done : catascript - no new computing performed")
 
 if __name__ == "__main__":
     catascript()
