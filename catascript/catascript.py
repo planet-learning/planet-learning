@@ -183,10 +183,10 @@ def catascript():
         print("Done : catascript - recomputed entries")
     
     else:
-
+        # Only processing confirmed catalog        
         process_confirmed()
         
-        print("Done : catascript - no new computing performed")
+        print("Done : catascript - only confirmed planets catalog processed again")
 
 if __name__ == "__main__":
     catascript()
