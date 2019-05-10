@@ -25,11 +25,12 @@ def save_to_pickle(data, path):
     
     Data is saved in binary format.
 
-
-    :param data: object to save
-    :type data: any python object
-    :param path: path to the file to write
-    :type path: path-like object
+    Parameters
+    ----------
+    data: any python object
+        object to save
+    path: path-like object
+        path to the file to write
 
     """
     # Write the data into a pickle file
@@ -53,12 +54,20 @@ def get_light_curve_metadata(light_curve_path):
     In the case where the file could not be read an bare error is raised.
     The error message is outputed in the log file.
 
+    Parameters
+    ----------
+    light_curve_path: path-like object
+        path to the light curve `.fits` file
 
-    :param light_curve_path: path to the light curve `.fits` file
-    :type light_curve_path: path-like object
-    :raises RuntimeError if the light curve file cannot be read
-    :returns: The extracted metadata
-    :rtype: int, dict
+    Raises
+    ------
+    RuntimeError
+        if the light curve file cannot be read
+
+    Returns
+    -------
+    (int, dict)
+        The extracted metadata
 
     """
     metadata = {}
@@ -90,11 +99,15 @@ def extracttic(light_curves_path):
         {int: [{'TICVER': int, 'SECTOR': int, 'path': str},]}
     If an exception is raised while readind the file, the `'TICVER'` and `'SECTOR'` fields are not present in the entry.
 
+    Parameters
+    ----------
+    light_curve_path: path-like object
+        path to the folder containing the light curves
 
-    :param light_curves_path: path to the folder containing the light curves
-    :type light_curve_path: path-like object
-    :returns light_curves: dictionary holding the extracted metadata
-    :rtype: dict
+    Returns
+    ------- 
+    dict
+        dictionary holding the extracted metadata
 
     """
     sector_dirs = sorted([d for d in os.listdir(light_curves_path) if isdir(join(light_curves_path, d))])
