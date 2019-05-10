@@ -6,13 +6,13 @@ These TICs have the particularity of all having at least one corresponding light
 ## Getting started
 
 ### Setup
-In order to setup the module, you need to create an actual `.env` file. To do so, run in your terminal, from the `catascript` folder :
+In order to setup the module, you need to create an actual `.env` file. To do so, run in your terminal, in the root directory :
 
 ```sh
 cp .env.template .env
 ```
 
-Then open the new `.env` file, and file out the right value for your setup.
+Then open the new `.env` file, and file out the right values for your setup.
 
 >Keep in mind that no space can be present around the "=" sign between the variable name and its value in the `.env` file since it is used by docker and by python
 
