@@ -101,32 +101,6 @@ def check_in_TICS_dict(TIC_in_catalog, TICS_dict):
     else:
         return ( (False, ("", []))) #we return False and default values
 
-def check_exists_other_ID(catalog_line):
-    """
-    Checks if the given line has another ID than a TIC
-
-    :param catalog_line: line of catalog currently being examined
-    :type catalog_line: dict
-
-    :returns: boolean indicating at least one other ID found, (name of mission ID, ID) dictionnary of found IDs
-    :rtype: (bool, dict) tuple
-    """
-    #Getting the fields corresponding to ids
-    list_of_ids = (os.getenv("OTHER_MISSIONS_IDS")).split(',')
-
-    #Dictionnary of found other ids
-    found_ids = {}
-    flag = False
-
-    #Checks for the existence of other ids
-    for id_mission_name in list_of_ids:
-        if catalog_line[id_mission_name] != None:
-            flag = flag or True
-            found_ids[id_mission_name] = catalog_line[id_mission_name]
-    
-    #Results
-    return((flag, found_ids))
-
 #Database relation functions
 def initialize_database():
     """
@@ -195,17 +169,12 @@ def catascript():
                     #check if match with a TIC with known light curve
                     (TIC_in_dict, dict_values) = check_in_TICS_dict(TIC_in_catalog, TICS_dict)
                     if TIC_in_dict:
+                        # add values extracted from the tic stored dictionnary in the catalog line to be stored in the database
+                        catalog_line_values['SECTOR'] = dict_values[0]['SECTOR']
+                        catalog_line_values['path'] = dict_values[0]['path']
 
-                        #check for existence of other missions IDs
-                        (exists_other_ids, corresponding_ids) = check_exists_other_ID(catalog_line_values)
-                        if exists_other_ids:
-
-                            # add values extracted from the tic stored dictionnary in the catalog line to be stored in the database
-                            catalog_line_values['SECTOR'] = dict_values[0]['SECTOR']
-                            catalog_line_values['path'] = dict_values[0]['path']
-
-                            # add entry to database
-                            add_entry_to_database(catalog_line_values)
+                        # add entry to database
+                        add_entry_to_database(catalog_line_values)
 
                 logging.info("Processing {} : Done".format(catalog_file))
 
@@ -215,6 +184,9 @@ def catascript():
         logging.info("Done : catascript - recomputed entries")
     
     else:
+        #Processing only confirmed catalog
+        process_confirmed()
+
         logging.info("Done : catascript - no new computing performed")
 
 if __name__ == "__main__":
