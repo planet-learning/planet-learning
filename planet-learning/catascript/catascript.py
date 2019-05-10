@@ -128,6 +128,26 @@ def add_entry_to_database(value_fields_dict):
         pass
     session.close
 
+#Statistics displaying
+def display_stats():
+    """
+    Displays the total number of entries in the database, and the total number of entries having an exoplanet already confirmed
+    """
+    #Queries
+    session = Session()
+
+    nb_total_entries = session.query(Catalog).count()
+    nb_total_already_confirmed = session.query(Catalog).filter(Catalog.already_confirmed == True).count()
+
+    session.close()
+
+    #Displaying
+    logging.info("     ~~~      ")
+    logging.info("NUMBER OF ENTRIES : {}".format(nb_total_entries))
+    logging.info("NUMBER OF ALREADY CONFIRMED : {}".format(nb_total_already_confirmed))
+    logging.info("     ~~~      ")
+
+
 #Main function
 def catascript():
     """
@@ -181,11 +201,17 @@ def catascript():
         #Processing confirmed catalog
         process_confirmed()
 
+        #Logging stats about the database entries
+        display_stats()
+        
         logging.info("Done : catascript - recomputed entries")
     
     else:
         #Processing only confirmed catalog
         process_confirmed()
+
+        #Logging stats about the database entries
+        display_stats()
 
         logging.info("Done : catascript - no new computing performed")
 
