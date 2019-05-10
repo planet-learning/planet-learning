@@ -79,7 +79,46 @@ To install the project, clone it :
 git clone git@github.com:planet-learning/planet-learning.git
 ```
 
-In order to make it run on [TESS](https://fr.wikipedia.org/wiki/Transiting_Exoplanet_Survey_Satellite) data, you need to download it from [here](http://archive.stsci.edu/tess/bulk_downloads/bulk_downloads_ffi-tp-lc-dv.html).
+#### Getting the required data
+
+In order to make it run on [TESS](https://fr.wikipedia.org/wiki/Transiting_Exoplanet_Survey_Satellite) data, you need to download : 
+
+- TESS TIC catalog files from https://archive.stsci.edu/tess/tic_ctl.html
+- TESS light curves from http://archive.stsci.edu/tess/bulk_downloads/bulk_downloads_ffi-tp-lc-dv.html
+
+#### NFS
+
+As the amount of TESS data needed to run this project is important, it is not stored on the computing machine but on a dedicated machine with a big storage hosting a NFS server.
+
+The folder structure on the NFS must be the following :
+
+```py
+.
+└── data/
+    ├── catalog/ # Extract the catalog files here
+    ├── confirmed/
+    ├── light_curves/ # Put the .fits light curves files for each sector here
+    │   ├── sector_1/
+    │   └── ...
+    └── processed/ # This folder holds the intermediate results of the scripts
+        └── dict_TIC.pickle
+```
+
+>Keep in mind that in order to access your NFS files, the storage machine needs to be accessible from the exterior. Check your open ports.
+
+#### Environment variables
+
+Environment variables are required to run both docker compose and the python scripts. Environment variables are stored in a `.env` file at the root of the repository.
+
+To create a `.env` file for your installation, run :
+
+```sh
+cp .env.template .env
+```
+
+Then open the new `.env` file, and file out the right values for your setup.
+
+>Keep in mind that no space can be present around the "=" sign between the variable name and its value in the `.env` file since it is used by docker and by python
 
 ### Running
 
