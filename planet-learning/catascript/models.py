@@ -5,7 +5,6 @@ from .base import Base
 """
 Database classes
 """
-
 class Catalog(Base):
     """
     Creates a database with following attributes
@@ -25,7 +24,7 @@ class Catalog(Base):
 	[ra] [float] *
 	[dec] [float] *
     [SECTOR] [int] *
-    [path] [varchar 60]
+    [path] [varchar 300]
     [already_confirmed] [boolean]
     """
     __tablename__="catalog"
@@ -58,3 +57,53 @@ class Catalog(Base):
         
         #Initializes already_confirmed attribute to false for latter processing
         self.already_confirmed = False
+
+class Confirmed(Base):
+    """
+    Creates a database with following attributes
+
+    Host_name [Varchar(40)]
+    Discovery_Method [Varchar(50)]
+    Controversial_flag [integer]
+    Number_planets_in_system [integer]
+    Orbital_Period [float]
+    Ra_sex [float]
+    Ra_deg [float]
+    Dec_sex [float]
+    Dec_deg [float]
+    HIP_Name [varchar(25)]
+    Proper_Motion_ra [float]
+    Proper_Motion_dec [float]
+    """
+    __tablename__ = "confirmed"
+    ID = Column(BigInteger, primary_key=True)
+    Host_name = Column("Host_name", VARCHAR(40))
+    Discovery_Method = Column("Discovery_method", VARCHAR(50))
+    Controversial_flag = Column("Controversial_flag", Integer)
+    Number_planets_in_system = Column("Number_planets_in_system", Integer)
+    Orbital_Period = Column("Orbital period", Numeric)
+    Ra_sex = Column("Ra_sex", Numeric)
+    Ra_deg = Column("Ra_deg", Numeric)
+    Dec_sex = Column("Dec_sex", Numeric)
+    Dec_deg = Column("Dec_deg", Numeric)
+    HIP_Name = Column("HIP Name", VARCHAR(25))
+    Proper_Motion_ra = Column("Proper_Motion_ra", Numeric)
+    Proper_Motion_dec = Column("Proper_Motion_dec", Numeric)
+
+    def __init__(self, value_fields_dict):
+        """
+        Creates another entry in the database
+        """
+        #Setting the attributes
+        for (key, value) in value_fields_dict.items():
+            setattr(self, key, value)
+
+        #Initializing number fo planets
+        self.Number_planets_in_system = 1
+
+    def increment_number_planets():
+        """
+        Increments by one the number of planets of an entry
+        """
+        self.Number_planets_in_system = self.Number_planets_in_system + 1
+        
