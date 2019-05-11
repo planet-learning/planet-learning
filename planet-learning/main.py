@@ -37,8 +37,7 @@ if __name__ == '__main__':
         format='%(asctime)s %(levelname)s: %(message)s',
         datefmt='%Y-%m-%d %H:%M:%S'
     )
-    light_curves = extracttic(light_curves_path)
-    save_to_pickle(light_curves, save_path)
+    extracttic(light_curves_path, save_path)
 
     # Configuration of the logging module
     logging.basicConfig(

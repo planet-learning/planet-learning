@@ -20,6 +20,38 @@ import numpy as np
 from astropy.io import fits
 
 
+def load_pickle(path):
+    """Load data from a `.pickle` file.
+
+    The `.pickle` file is read in binary format.
+
+    Parameters
+    ----------
+    path: path-like object
+        path to the file to read
+
+    Raises
+    ------
+    EnvironmentError
+        if the requested file does not exist
+
+    Returns
+    -------
+    type of object saved in the `.pickle`
+        Python object stored in the `.pickle`
+    
+    """
+    if isfile(path):
+        logging.info("Loading existing extracted file : {}".format(path))
+        with open(path, 'rb') as p:
+            data = pickle.load(p)
+    else:
+        logging.info("No existing extracted file found")
+        raise EnvironmentError
+
+    return data
+
+
 def save_to_pickle(data, path):
     """Save a python object into a `.pickle` file.
     
@@ -89,7 +121,7 @@ def get_light_curve_metadata(light_curve_path):
     return TICID, metadata
 
 
-def extracttic(light_curves_path):
+def extracttic(light_curves_path, pickle_path, force_extract=False):
     """Retrieve some fields in the headers of TESS `.fits` light curve files and exports them in a dictionary.
 
     Metadata of all files under `light_curve_path` are extracted into a dictionary.
@@ -103,14 +135,15 @@ def extracttic(light_curves_path):
     ----------
     light_curve_path: path-like object
         path to the folder containing the light curves
-
-    Returns
-    ------- 
-    dict
-        dictionary holding the extracted metadata
+    pickle_path: path-like object
+        path to the `.pickle` file used to store the extracted data
+    force_extract: bool
+        True to force TIC extraction even if up-to-date data is found on storage
 
     """
     sector_dirs = sorted([d for d in os.listdir(light_curves_path) if isdir(join(light_curves_path, d))])
+    # get sector numbers
+    sectors = set([int(s.split("_")[1]) for s in sector_dirs])
     # dict to store the light curves' metadata
     light_curves = {}
     # Keep track of the number of file processed
@@ -119,7 +152,28 @@ def extracttic(light_curves_path):
     logging.info("#############################################")
     logging.info("#### Extract TIC from light curves files ####")
     logging.info("#############################################")
-    logging.info("The following observation sectors are available : {}".format(" | ".join(sector_dirs)))
+    logging.info("The following observation sectors are available on storage: {}".format((sectors)))
+
+    # Load previously extracted data
+    try:
+        existing_data = load_pickle(pickle_path)
+        existing_sectors = set()
+
+        for tic, existing_lcs in existing_data.items():
+            for lc in existing_lcs:
+                if tic != None:
+                    existing_sectors.add(lc['SECTOR'])
+        logging.info("Found sectors {} in extracted data".format((existing_sectors)))
+
+        if existing_sectors == sectors:
+            if force_extract:
+                logging.info("No new data available, extracting TIC again anyway")
+            else:
+                logging.info("No new data available, skipping TIC extraction")
+                return
+
+    except EnvironmentError:
+        logging.info("Starting TIC extraction")
 
     for sector in sector_dirs:
         n = 0
@@ -163,4 +217,4 @@ def extracttic(light_curves_path):
     logging.info("Light curve files processed : {}".format(lc_number))
     logging.info("Number of objects observed : {}".format(object_number))
 
-    return light_curves
+    save_to_pickle(light_curves, pickle_path)
