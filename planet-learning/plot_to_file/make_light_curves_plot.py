@@ -2,9 +2,17 @@ from astropy.io import fits
 import matplotlib.pyplot as plt
 import numpy as np
 import logging
+import os
 
-from .catascript.base import Base, Session
-from .catascript.models import Catalog
+from os.path import isdir, join
+
+from ..catascript.base import Base, Session
+from ..catascript.models import Catalog
+
+def create_dir(directory):
+    # Create the directory to store the plots on first run
+    if not isdir(directory):
+         os.mkdir(directory)
 
 def get_TICS_with_confirmed():
     """
@@ -74,6 +82,9 @@ def make_light_curves_plot():
     """
     #Get plotting boolean
     need_to_plot = int(os.getenv("PLOT_TO_FILE"))
+
+    #Create directory
+    create_dir('plots_to_file')
 
     if need_to_plot:
         logging.info("Processing : plotting to file light curves of TICS with confirmed planets")
