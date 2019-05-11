@@ -83,7 +83,7 @@ def make_light_curves_plot(processed_dir_path):
     need_to_plot = int(os.getenv("PLOT_TO_FILE"))
 
     #Create directory
-    create_dir('plots_to_file')
+    create_dir('{}/plots_to_file'.format(processed_dir_path))
 
     if need_to_plot:
         logging.info("Processing : plotting to file light curves of TICS with confirmed planets")
