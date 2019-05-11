@@ -26,7 +26,10 @@ DATA_ROOT = /path/to/data/folder #/planet-learning/data
 LIGHT_CURVES_DIR = name_of_the_folder_containing the light_curves #light_curves
 PROCESSED_DIR = name_of_the_folder_containing the processed_data #processed
 EXTRACTED_TICS_FILE = name_of_the_file_holding_the_extracted_tic_data #dict_TIC.pickle
+FORCE_TIC_EXTRACTION=1 or 0
 ```
+
+`FORCE_TIC_EXTRACTION` should be set to `1` to force re-extracting TICs from all available light curves. Set this to `0` to extract only new sectors that are not yet extracted.
 
 In the example, the data is structured like the following :
 

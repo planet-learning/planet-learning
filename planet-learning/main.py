@@ -26,6 +26,9 @@ if __name__ == '__main__':
     processed_dir_path = join(DATA_ROOT, PROCESSED_DIR)
     save_path = join(processed_dir_path, EXTRACTED_TICS_FILE)
 
+    # False if "0" alse True
+    force_tic_extract = False if not int(os.getenv('FORCE_TIC_EXTRACTION')) else True
+
     create_dir('log')
     create_dir(processed_dir_path)
 
@@ -37,8 +40,7 @@ if __name__ == '__main__':
         format='%(asctime)s %(levelname)s: %(message)s',
         datefmt='%Y-%m-%d %H:%M:%S'
     )
-    light_curves = extracttic(light_curves_path)
-    save_to_pickle(light_curves, save_path)
+    extracttic(light_curves_path, save_path, force_tic_extract)
 
     # Configuration of the logging module
     logging.basicConfig(
