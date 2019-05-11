@@ -101,7 +101,7 @@ def process_confirmed():
         catalog_reader = csv.reader(catalog_csv, delimiter=',', quotechar='|')
 
         #Skipping header rows
-        for i in range(26):
+        for i in range(nb_rows_header):
             next(catalog_reader)
 
         #Iteration on each line of the csv file
