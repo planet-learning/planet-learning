@@ -78,14 +78,14 @@ class Confirmed(Base):
     Discovery_Method [Varchar(50)]
     Controversial_flag [integer]
     Number_planets_in_system [integer]
-    Orbital_Period [float]
-    Ra_sex [float]
+    Orbital_Period [varchar(40)]
+    Ra_sex [varchar(30)]
     Ra_deg [float]
-    Dec_sex [float]
+    Dec_sex [varchar(30)]
     Dec_deg [float]
     HIP_Name [varchar(25)]
-    Proper_Motion_ra [float]
-    Proper_Motion_dec [float]
+    Proper_Motion_ra [varchar(30)]
+    Proper_Motion_dec [varchar(30)]
     """
     __tablename__ = "confirmed"
     TIC = Column(BigInteger, primary_key=True)
@@ -93,14 +93,14 @@ class Confirmed(Base):
     Discovery_Method = Column("Discovery_method", VARCHAR(50))
     Controversial_flag = Column("Controversial_flag", Integer)
     Number_planets_in_system = Column("Number_planets_in_system", Integer)
-    Orbital_Period = Column("Orbital period", Numeric)
-    Ra_sex = Column("Ra_sex", Numeric)
+    Orbital_Period = Column("Orbital period", VARCHAR(40))
+    Ra_sex = Column("Ra_sex", VARCHAR(30))
     Ra_deg = Column("Ra_deg", Numeric)
-    Dec_sex = Column("Dec_sex", Numeric)
+    Dec_sex = Column("Dec_sex", VARCHAR(30))
     Dec_deg = Column("Dec_deg", Numeric)
     HIP_Name = Column("HIP Name", VARCHAR(25))
-    Proper_Motion_ra = Column("Proper_Motion_ra", Numeric)
-    Proper_Motion_dec = Column("Proper_Motion_dec", Numeric)
+    Proper_Motion_ra = Column("Proper_Motion_ra",  VARCHAR(30))
+    Proper_Motion_dec = Column("Proper_Motion_dec",  VARCHAR(30))
 
     #One to one relationship with Confirmed
     catalog_id = Column(Integer, ForeignKey("catalog.ID"))
