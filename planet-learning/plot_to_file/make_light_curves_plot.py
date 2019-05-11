@@ -9,6 +9,9 @@ from os.path import isdir, join
 from ..catascript.base import Base, Session
 from ..catascript.models import Catalog
 
+#Setting properties for matplotlib (width, heigth in inches)
+plt.rcParams["figure.figsize"] = (20,3)
+
 def create_dir(directory):
     # Create the directory to store the plots on first run
     if not isdir(directory):
@@ -64,7 +67,7 @@ def make_and_save_light_curve(TIC, lc_path, processed_dir_path):
     
     # Plotting
     fig, ax = plt.subplots()
-    ax.plot(tess_bjds, pdcsap_fluxes, 'ko') 
+    ax.plot(tess_bjds, pdcsap_fluxes, 'k.') 
 
     #Saving the file to svg
     plt.savefig('{}/plots_to_file/{}_light_curve.svg'.format(processed_dir_path,TIC))
