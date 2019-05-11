@@ -164,8 +164,3 @@ def extracttic(light_curves_path):
     logging.info("Number of objects observed : {}".format(object_number))
 
     return light_curves
-
-
-if __name__ == '__main__':
-    light_curves = extracttic(light_curves_path)
-    save_to_pickle(light_curves, save_path)

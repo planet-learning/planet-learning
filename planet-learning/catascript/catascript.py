@@ -229,5 +229,3 @@ def catascript():
 
         logging.info("Done : catascript - no new computing performed")
 
-if __name__ == "__main__":
-    catascript()
