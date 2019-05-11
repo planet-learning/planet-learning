@@ -7,7 +7,7 @@ from os.path import join
 import numpy as np
 
 from .base import Base, Session, engine
-from .models import Catalog
+from .models import Catalog, Confirmed
 
 
 """
@@ -63,7 +63,6 @@ def checks_star_exists_in_database_and_update(processed_catalog_line):
 
         #Database modifications
         if search_for_HIP:
-            logging.info(" ")
             logging.info("HIP : \n Modifying entry for : {}".format(processed_catalog_line))
             search_for_HIP[0].already_confirmed = True
              
@@ -78,7 +77,6 @@ def checks_star_exists_in_database_and_update(processed_catalog_line):
 
         #Database modifications
         if (search_for_Dec_and_Ra):
-            logging.info(" ")
             logging.info("Dec/Ra : \n Modifying entry for : {}".format(processed_catalog_line))
             search_for_Dec_and_Ra[0].already_confirmed = True
              
