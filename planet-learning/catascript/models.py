@@ -114,8 +114,8 @@ class Confirmed(Base):
         ----------
         value_fields_dict: dict
             Dict containing the fields and values of the entry to create
-        related_catalog_entry: Catalog entry
-            The corresponding catalog entry
+        related_catalog_entry: int
+            The corresponding catalog entry id
         """
         #Setting the attributes
         for (key, value) in value_fields_dict.items():
@@ -125,7 +125,7 @@ class Confirmed(Base):
         self.Number_planets_in_system = 1
 
         #Linking to the corresponding catalog entry
-        self.related_catalog_entry = related_catalog_entry
+        self.catalog_id = catalog_id
 
     def increment_number_planets():
         """
