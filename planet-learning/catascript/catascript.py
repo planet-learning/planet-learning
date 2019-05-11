@@ -22,8 +22,10 @@ def get_catalog_files():
     """
     Get all catalog filenames present in the data/catalog folder
 
-    :returns: the list of filenames
-    :rtype: list
+    Returns
+    -------
+    list
+        the list of filenames
     """
     #Get path and all file names
     data_root = os.getenv("DATA_ROOT")
@@ -42,9 +44,11 @@ def get_catalog_files():
 def load_TICS_dict():
     """
     This function loads the dictionnary of extracted TICS that have a ligth curve (it was extracted and stored by the extrattic module)
-
-    :returns: a dictionnary containing the (TIC, list of name_of_ligthcurve_file) pairs.
-    :rtype: dict
+    
+    Returns
+    -------
+    dict
+        a dictionnary containing the (TIC, list of name_of_ligthcurve_file) pairs.
     """
 
     path_to_load = join(os.getenv("DATA_ROOT"), os.getenv("PROCESSED_DIR"), os.getenv("EXTRACTED_TICS_FILE"))
@@ -56,12 +60,16 @@ def load_TICS_dict():
 def preprocess_catalog_line(catalog_line):
     """
     Preprocess the given catalog line into a dict with (name of field in the database, value for this line) entries.
-
-    :param catalog_line:
-    :type catalog_line: list
-
-    :returns: the processed line
-    :returns: dict
+    
+    Parameters
+    ----------
+    catalog_line: list
+        The line to process
+    
+    Returns
+    -------
+    dict
+        the processed line
     """
     #Getting fields (in order)
     list_of_fields = (os.getenv("LIST_DB_FIELDS")).split(',')
@@ -85,13 +93,17 @@ def check_in_TICS_dict(TIC_in_catalog, TICS_dict):
     This function checks for the existence of a specified TIC in the dictionnary of TICS of which we have a ligth curve 
     and returns the corresponding boolean.
 
-    :param TIC_in_catalog: the TIC we want to check
-    :type TIC_in_catalog: str
-    :param TICS_dict: the dict of extracted TICS given by load_TICS_dict
-    :type TICS_dict: {int: list} dict. The list is for taking into account repetitions of a TIC visualisation.
+    Parameters
+    ----------
+    TIC_in_catalog: str
+        the TIC we want to check
+    TICS_dict: {int: list} dict. The list is for taking into account repetitions of a TIC visualisation.
+        the dict of extracted TICS given by load_TICS_dict
 
-    :returns: (boolean indicating existence, value of the dict entry if existing)
-    :rtype: (bool, (str, {str dict} list)) tuple
+    Returns
+    -------
+    (bool, (str, {str dict} list)) tuple
+        (boolean indicating existence, value of the dict entry if existing)
     """
     TIC_in_catalog = int(TIC_in_catalog)
 
@@ -115,8 +127,10 @@ def add_entry_to_database(value_fields_dict):
     It matches the list of all possible fields given with the keys of the value of fields dictionnary, 
     filling with None if there is not such value for that TIC.
 
-    :param value_fields_dict: dictionary containing the value for each of the needed fields for that TIC entry.
-    :type value_fields_dict: dict
+    Parameters
+    ----------
+    value_fields_dict: dict
+        dictionary containing the value for each of the needed fields for that TIC entry.
     """
     session = Session()
     try:
