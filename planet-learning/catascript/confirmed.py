@@ -38,7 +38,11 @@ def preprocess_catalog_line(catalog_line):
     #Adding values, taking into account missing ones
     for (index, field) in enumerate(list_of_fields):
         if catalog_line[index] != '':
-            catalog_line_dict[field] = catalog_line[index]
+            #conversion for numeric fields
+            if field == "Controversial flag":
+                catalog_line_dict[field] = int(catalog_line[index])                
+            else:
+                catalog_line_dict[field] = catalog_line[index]
         else:
             catalog_line_dict[field] = None
 
