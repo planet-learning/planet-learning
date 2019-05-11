@@ -46,7 +46,7 @@ def preprocess_catalog_line(catalog_line):
     return catalog_line_dict
 
 #Query fucntions
-def add_or_update_confirmed(value_fields_dict, catalog_entry):
+def add_or_update_confirmed(value_fields_dict, catalog_entry, session):
     """
     This function adds a new value to the database (without commiting it)
     It matches the list of all possible fields given with the keys of the value of fields dictionnary, 
@@ -93,7 +93,7 @@ def checks_star_exists_in_database_and_update(processed_catalog_line):
             processed_catalog_line["TIC"] = search_for_HIP[0].ID 
 
             #Creating or updating a Confirmed entry
-            add_or_update_confirmed(processed_catalog_line, search_for_HIP[0])
+            add_or_update_confirmed(processed_catalog_line, search_for_HIP[0], session)
 
             logging.info("HIP : \n Modifying entry for : {}, with TIC : {}".format(processed_catalog_line["Host name"], processed_catalog_line["TIC"]))
              
@@ -115,7 +115,7 @@ def checks_star_exists_in_database_and_update(processed_catalog_line):
             processed_catalog_line["TIC"] = search_for_Dec_and_Ra[0].ID 
 
             #Creating or updating a Confirmed entry
-            add_or_update_confirmed(processed_catalog_line, search_for_Dec_and_Ra[0])
+            add_or_update_confirmed(processed_catalog_line, search_for_Dec_and_Ra[0], session)
             
             logging.info("Dec/Ra : \n Modifying entry for : {}, with TIC : {}".format(processed_catalog_line["Host name"], processed_catalog_line["TIC"]))
     
