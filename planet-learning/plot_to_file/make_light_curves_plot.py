@@ -53,10 +53,9 @@ def make_and_save_light_curve(TIC, lc_path):
     """
     # Getting the file
     logging.info("TIC {} : Tackling {} file".format(TIC, lc_path))
-    fits_file = load(lc_path)
     
     # Opening the data
-    with fits.open(fits_file, mode="readonly") as hdulist:
+    with fits.open(lc_path, mode="readonly") as hdulist:
         tess_bjds = hdulist[1].data['TIME']
         sap_fluxes = hdulist[1].data['SAP_FLUX']
         pdcsap_fluxes = hdulist[1].data['PDCSAP_FLUX']
@@ -65,16 +64,8 @@ def make_and_save_light_curve(TIC, lc_path):
     fig, ax = plt.subplots()
     ax.plot(tess_bjds, pdcsap_fluxes, 'ko') 
 
-    # Labeling the axes and defining a title for the figure.
-    fig.suptitle("WASP-126 b Light Curve - Sector 1")
-    ax.set_ylabel("PDCSAP Flux (e-/s)")
-    ax.set_xlabel("Time (TBJD)")
-
-    # Adjusting the left margin so the y-axis label shows up.
-    plt.subplots_adjust(left=0.15)
-
     #Saving the file to svg
-    plt.savefig('{}_light_curve.svg'.format(TIC))
+    plt.savefig('plots_to_file/{}_light_curve.svg'.format(TIC))
     plt.close(fig)
 
 def make_light_curves_plot():
