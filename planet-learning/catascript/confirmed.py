@@ -112,6 +112,3 @@ def process_confirmed():
     #logging.info number of confirmed systems are in database
 
     logging.info("Done : catascript, confirmed catalog")
-
-if __name__ == "__main__":
-    process_confirmed()
