@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 
 from .catascript.catascript import catascript
 from .extracttic.extracttic import extracttic, save_to_pickle
-
+from .plot_to_file.make_light_curves_plot import make_light_curves_plot
 
 def create_dir(directory):
     # Create the directory to store the logs on first run
@@ -50,3 +50,6 @@ if __name__ == '__main__':
         datefmt='%Y-%m-%d %H:%M:%S'
     )
     catascript()
+
+    #Plotting to file
+    make_light_curves_plot()
