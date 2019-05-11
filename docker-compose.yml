@@ -32,7 +32,7 @@ services:
         target: /planet-learning/code
       - type: volume
         source: data
-        target: /planet-learning/data
+        target: ${DATA_ROOT}
     depends_on:
       - planet-learning-database
 
@@ -41,5 +41,5 @@ volumes:
     driver: local
     driver_opts:
       type: nfs
-      o: addr=10.52.131.123       # IP of nfs server.  This is also where you put any options '-o' in standard option format
-      device: ":/media/nfs/planet-learning"  # location on nfs server of file/dir you want to mount
+      o: addr=${NFS_IP}       # IP of nfs server.  This is also where you put any options '-o' in standard option format
+      device: :${NFS_TARGET}  # location on nfs server of file/dir you want to mount
