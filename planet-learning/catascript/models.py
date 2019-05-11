@@ -73,6 +73,7 @@ class Confirmed(Base):
     """
     Creates a database with following attributes
 
+    TIC [Integer] (primary key)
     Host_name [Varchar(40)]
     Discovery_Method [Varchar(50)]
     Controversial_flag [integer]
@@ -87,7 +88,7 @@ class Confirmed(Base):
     Proper_Motion_dec [float]
     """
     __tablename__ = "confirmed"
-    ID = Column(BigInteger, primary_key=True)
+    TIC = Column(BigInteger, primary_key=True)
     Host_name = Column("Host_name", VARCHAR(40))
     Discovery_Method = Column("Discovery_method", VARCHAR(50))
     Controversial_flag = Column("Controversial_flag", Integer)

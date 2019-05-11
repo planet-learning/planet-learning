@@ -43,6 +43,27 @@ def preprocess_catalog_line(catalog_line):
     #results
     return catalog_line_dict
 
+#Query fucntions
+def add_or_update_confirmed(value_fields_dict, catalog_entry):
+    """
+    This function adds a new value to the database (without commiting it)
+    It matches the list of all possible fields given with the keys of the value of fields dictionnary, 
+    filling with None if there is not such value for that host.
+
+    Parameters
+    ----------
+    value_fields_dict: dict
+        dictionary containing the value for each of the needed fields for that host entry.
+    """
+    try:
+        new_entry = Confirmed(value_fields_dict, catalog_entry)
+        session.add(new_entry)
+    except (IntegrityError, UniqueViolation):
+        #There is already an entry in the database
+        host = session.query(Confirmed).filter(Confirmed.TIC == value_fields_dict["TIC"]).limit(1).all()
+        host[0].increment_number_planets()
+
+#Processing functions
 def checks_star_exists_in_database_and_update(processed_catalog_line):
     """
     This function checks if the HIP identifier of the confirmed line is in the database. If it isn't, we check for th ra and dec values.
@@ -63,8 +84,16 @@ def checks_star_exists_in_database_and_update(processed_catalog_line):
 
         #Database modifications
         if search_for_HIP:
-            logging.info("HIP : \n Modifying entry for : {}".format(processed_catalog_line))
+            #Modifying Catalog entry
             search_for_HIP[0].already_confirmed = True
+
+            #Updating processed_catalog_line
+            processed_catalog_line["TIC"] == search_for_HIP[0].ID 
+
+            #Creating or updating a Confirmed entry
+            add_or_update_confirmed(processed_catalog_line, search_for_HIP[0])
+
+            logging.info("HIP : \n Modifying entry for : {}, with TIC : {}".format(processed_catalog_line["Host name"], processed_catalog_line["TIC"]))
              
     #Else, we search by ra and dec (in degrees in the database)
     else:
@@ -77,9 +106,17 @@ def checks_star_exists_in_database_and_update(processed_catalog_line):
 
         #Database modifications
         if (search_for_Dec_and_Ra):
-            logging.info("Dec/Ra : \n Modifying entry for : {}".format(processed_catalog_line))
+            logging.info("Dec/Ra : \n Modifying entry for : {}, with TIC : {}".format(processed_catalog_line["Host name"], processed_catalog_line["TIC"]))
+            
+            #Modifying Catalog entry
             search_for_Dec_and_Ra[0].already_confirmed = True
-             
+
+            #Updating processed_catalog_line
+            processed_catalog_line["TIC"] == search_for_Dec_and_Ra[0].ID 
+
+            #Creating or updating a Confirmed entry
+            add_or_update_confirmed(processed_catalog_line, search_for_Dec_and_Ra[0])
+            
     session.commit()
     session.close()
 
