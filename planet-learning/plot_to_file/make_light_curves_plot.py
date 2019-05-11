@@ -40,7 +40,7 @@ def get_TICS_with_confirmed():
     return dict_TIC_IDs
 
 
-def make_and_save_light_curve(TIC, lc_path):
+def make_and_save_light_curve(TIC, lc_path, processed_dir_path):
     """
     This function plots the light curve using matplotlib and saves the output to a svg file
 
@@ -50,6 +50,8 @@ def make_and_save_light_curve(TIC, lc_path):
             The value of the TIC ID corresponding to the light curve we want to plot
         - lc_path : string
             The path to the ligth curve storage on the nfs
+        - processed_dir_path : str
+            Path to the folder of processed data in the nfs
     """
     # Getting the file
     logging.info("TIC {} : Tackling {} file".format(TIC, lc_path))
@@ -65,12 +67,17 @@ def make_and_save_light_curve(TIC, lc_path):
     ax.plot(tess_bjds, pdcsap_fluxes, 'ko') 
 
     #Saving the file to svg
-    plt.savefig('plots_to_file/{}_light_curve.svg'.format(TIC))
+    plt.savefig('{}/plots_to_file/{}_light_curve.svg'.format(processed_dir_path,TIC))
     plt.close(fig)
 
-def make_light_curves_plot():
+def make_light_curves_plot(processed_dir_path):
     """
-    This function builds the plot of all light curves and save them to jpg
+    This function builds the plot of all light curves and save them to jpg, in a nfs subfolder
+
+    Parameters:
+    -----------
+        - processed_dir_path : str
+            Path to the folder of processed data in the nfs
     """
     #Get plotting boolean
     need_to_plot = int(os.getenv("PLOT_TO_FILE"))

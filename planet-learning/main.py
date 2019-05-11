@@ -52,4 +52,4 @@ if __name__ == '__main__':
     catascript()
 
     #Plotting to file
-    make_light_curves_plot()
+    make_light_curves_plot(processed_dir_path)
