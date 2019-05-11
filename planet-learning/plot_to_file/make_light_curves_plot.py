@@ -19,7 +19,7 @@ def create_dir(directory):
 
 def get_TICS_with_confirmed():
     """
-    This functions queries the database and returns the TIC IDs that have a confirmed planet.
+    This function queries the database and returns the TIC IDs that have a confirmed planet.
 
     Returns
     -------
