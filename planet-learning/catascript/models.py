@@ -88,7 +88,7 @@ class Confirmed(Base):
     Proper_Motion_dec [varchar(30)]
     """
     __tablename__ = "confirmed"
-    TIC = Column(BigInteger, primary_key=True)
+    ID = Column(BigInteger, primary_key=True)
     Host_name = Column("Host_name", VARCHAR(40))
     Discovery_Method = Column("Discovery_method", VARCHAR(50))
     Controversial_flag = Column("Controversial_flag", Integer)

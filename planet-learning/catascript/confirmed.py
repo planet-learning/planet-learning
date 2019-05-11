@@ -103,12 +103,13 @@ def checks_star_exists_in_database_and_update(processed_catalog_line):
             session.close()
             
             #Updating processed_catalog_line
-            processed_catalog_line["TIC"] = search_for_HIP[0].ID 
+            #processed_catalog_line["TIC"] = 
+            catalog_id = search_for_HIP[0].ID 
 
             #Creating or updating a Confirmed entry
-            add_or_update_confirmed(processed_catalog_line, search_for_HIP[0].ID)
+            add_or_update_confirmed(processed_catalog_line, catalog_id)
 
-            logging.info("HIP : \n Modifying entry for : {}, with TIC : {}".format(processed_catalog_line["Host name"], processed_catalog_line["TIC"]))
+            logging.info("HIP : \n Modifying entry for : {}, with TIC : {}".format(processed_catalog_line["Host name"], catalog_id))
              
     #Else, we search by ra and dec (in degrees in the database)
     else:
@@ -131,12 +132,13 @@ def checks_star_exists_in_database_and_update(processed_catalog_line):
             session.close()
 
             #Updating processed_catalog_line
-            processed_catalog_line["TIC"] = search_for_Dec_and_Ra[0].ID 
+            #processed_catalog_line["TIC"] = 
+            catalog_id = search_for_Dec_and_Ra[0].ID 
 
             #Creating or updating a Confirmed entry
-            add_or_update_confirmed(processed_catalog_line, search_for_Dec_and_Ra[0].ID)
+            add_or_update_confirmed(processed_catalog_line, catalog_id)
             
-            logging.info("Dec/Ra : \n Modifying entry for : {}, with TIC : {}".format(processed_catalog_line["Host name"], processed_catalog_line["TIC"]))
+            logging.info("Dec/Ra : \n Modifying entry for : {}, with TIC : {}".format(processed_catalog_line["Host name"], catalog_id))
 
 def process_confirmed():
     """
