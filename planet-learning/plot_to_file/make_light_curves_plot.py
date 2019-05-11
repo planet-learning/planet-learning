@@ -62,7 +62,6 @@ def make_and_save_light_curve(TIC, lc_path, processed_dir_path):
     # Opening the data
     with fits.open(lc_path, mode="readonly") as hdulist:
         tess_bjds = hdulist[1].data['TIME']
-        sap_fluxes = hdulist[1].data['SAP_FLUX']
         pdcsap_fluxes = hdulist[1].data['PDCSAP_FLUX']
     
     # Plotting
