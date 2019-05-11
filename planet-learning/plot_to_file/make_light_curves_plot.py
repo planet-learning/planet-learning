@@ -70,7 +70,7 @@ def make_and_save_light_curve(TIC, lc_path, processed_dir_path):
     ax.plot(tess_bjds, pdcsap_fluxes, 'k.') 
 
     #Saving the file to svg
-    plt.savefig('{}/plots_to_file/{}_light_curve.svg'.format(processed_dir_path,TIC))
+    plt.savefig('{}/plots_to_file/{}_lc.svg'.format(processed_dir_path,TIC))
     plt.close(fig)
 
 def make_light_curves_plot(processed_dir_path):
