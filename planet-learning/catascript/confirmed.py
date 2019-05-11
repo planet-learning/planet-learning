@@ -64,10 +64,12 @@ def add_or_update_confirmed(value_fields_dict, catalog_entry, session):
     try:
         new_entry = Confirmed(value_fields_dict, catalog_entry)
         session.add(new_entry)
+        session.commit()
     except (IntegrityError, UniqueViolation):
         #There is already an entry in the database
         host = session.query(Confirmed).filter(Confirmed.TIC == value_fields_dict["TIC"]).limit(1).all()
         host[0].increment_number_planets()
+        session.commit()
 
 #Processing functions
 def checks_star_exists_in_database_and_update(processed_catalog_line):
@@ -81,18 +83,19 @@ def checks_star_exists_in_database_and_update(processed_catalog_line):
 
     """
     HIP_identifier = processed_catalog_line["HIP Name"]
-    session = Session() 
 
     #If there is an HIP identifier    
     if HIP_identifier:
         HIP_identifier = int(HIP_identifier.split(' ')[1])
+        session = Session() 
         search_for_HIP = session.query(Catalog).filter(Catalog.HIP == HIP_identifier).limit(1).all()
-
+        
         #Database modifications
         if search_for_HIP:
             #Modifying Catalog entry
             search_for_HIP[0].already_confirmed = True
-
+            session.commit()
+            
             #Updating processed_catalog_line
             processed_catalog_line["TIC"] = search_for_HIP[0].ID 
 
@@ -107,6 +110,8 @@ def checks_star_exists_in_database_and_update(processed_catalog_line):
         Dec = float(processed_catalog_line["Dec_deg"])
         #Queries
         accepted_error_margin = 0.000001
+
+        session = Session()
         search_for_Ra = session.query(Catalog).filter(Catalog.ra > Ra-accepted_error_margin).filter(Catalog.ra < Ra + accepted_error_margin)
         search_for_Dec_and_Ra = search_for_Ra.filter(Catalog.dec > Dec-accepted_error_margin).filter(Catalog.dec < Dec + accepted_error_margin).limit(1).all()
 
@@ -114,6 +119,7 @@ def checks_star_exists_in_database_and_update(processed_catalog_line):
         if (search_for_Dec_and_Ra):
             #Modifying Catalog entry
             search_for_Dec_and_Ra[0].already_confirmed = True
+            session.commit()
 
             #Updating processed_catalog_line
             processed_catalog_line["TIC"] = search_for_Dec_and_Ra[0].ID 
@@ -123,7 +129,6 @@ def checks_star_exists_in_database_and_update(processed_catalog_line):
             
             logging.info("Dec/Ra : \n Modifying entry for : {}, with TIC : {}".format(processed_catalog_line["Host name"], processed_catalog_line["TIC"]))
     
-    session.commit()
     session.close()
 
 def process_confirmed():
