@@ -21,7 +21,7 @@ class Catalog(Base):
 	[APASS] [varchar](30) *
 	[KIC] [int] *
 	[objType] [varchar](10)
-	[typeSrc] [varchar](10)
+	[typeSrc] [varchar](20)
 	[ra] [float] *
 	[dec] [float] *
     [SECTOR] [int] *
@@ -41,7 +41,7 @@ class Catalog(Base):
     APASS = Column("APASS", VARCHAR(30))
     KIC = Column("KIC", Integer)
     objType = Column("objType", VARCHAR(10))
-    typeSrc = Column("typeSrc", VARCHAR(10))
+    typeSrc = Column("typeSrc", VARCHAR(20))
     ra = Column("ra", Numeric)
     dec = Column("dec", Numeric)
     SECTOR = Column("SECTOR", Integer)
