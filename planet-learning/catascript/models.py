@@ -47,9 +47,17 @@ class Catalog(Base):
     path = Column("path", VARCHAR(300))
     already_confirmed = Column("already_confirmed", Boolean)
 
+    #One to one relationship with Confirmed
+    planets_information = relationship("Confirmed", uselist=False, back_populates="related_catalog_entry")
+
     def __init__(self, value_fields_dict):
         """
         Creates another entry in the database
+
+        Parameters
+        ----------
+        value_fields_dict: dict
+            Dict containing the fields and values of the entry to create
         """
         #Setting the attributes
         for (key, value) in value_fields_dict.items():
@@ -57,6 +65,9 @@ class Catalog(Base):
         
         #Initializes already_confirmed attribute to false for latter processing
         self.already_confirmed = False
+
+        #Idem for planets_information
+        self.planets_information = None
 
 class Confirmed(Base):
     """
@@ -90,16 +101,29 @@ class Confirmed(Base):
     Proper_Motion_ra = Column("Proper_Motion_ra", Numeric)
     Proper_Motion_dec = Column("Proper_Motion_dec", Numeric)
 
-    def __init__(self, value_fields_dict):
+    #One to one relationship with Confirmed
+    related_catalog_entry = relationship("Catalog", uselist=False, back_populates="planets_information")
+
+    def __init__(self, value_fields_dict, related_catalog_entry):
         """
         Creates another entry in the database
+
+        Parameters
+        ----------
+        value_fields_dict: dict
+            Dict containing the fields and values of the entry to create
+        related_catalog_entry: Catalog entry
+            The corresponding catalog entry
         """
         #Setting the attributes
         for (key, value) in value_fields_dict.items():
             setattr(self, key, value)
 
-        #Initializing number fo planets
+        #Initializing number of planets
         self.Number_planets_in_system = 1
+
+        #Linking to the corresponding catalog entry
+        self.related_catalog_entry = related_catalog_entry
 
     def increment_number_planets():
         """
