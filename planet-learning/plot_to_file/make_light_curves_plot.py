@@ -75,7 +75,7 @@ def make_and_save_light_curve(TIC, lc_path, processed_dir_path):
 
 def make_light_curves_plot(processed_dir_path):
     """
-    This function builds the plot of all light curves and save them to jpg, in a nfs subfolder
+    This function builds the plot of all light curves and save them to svg, in a nfs subfolder
 
     Parameters:
     -----------
