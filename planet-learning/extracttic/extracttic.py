@@ -146,8 +146,6 @@ def extracttic(light_curves_path, pickle_path, force_extract=False):
     sectors = set([int(s.split("_")[1]) for s in sector_dirs])
     # dict to store the light curves' metadata
     light_curves = {}
-    # Keep track of the number of file processed
-    lc_number = 0
 
     logging.info("#############################################")
     logging.info("#### Extract TIC from light curves files ####")
@@ -159,6 +157,7 @@ def extracttic(light_curves_path, pickle_path, force_extract=False):
         existing_data = load_pickle(pickle_path)
         existing_sectors = set()
 
+        # Get the sectors present in the extracted data
         for tic, existing_lcs in existing_data.items():
             for lc in existing_lcs:
                 if tic != None:
@@ -168,12 +167,28 @@ def extracttic(light_curves_path, pickle_path, force_extract=False):
         if existing_sectors == sectors:
             if force_extract:
                 logging.info("No new data available, extracting TIC again anyway")
+                logging.info("--------------------------------------------------")
             else:
                 logging.info("No new data available, skipping TIC extraction")
+                logging.info("----------------------------------------------")
                 return
+        else:
+            new_sectors = sectors.difference(existing_sectors)
+            logging.info("New sectors available : {}".format(new_sectors))
+            new_sector_dirs = []
 
+            for s in new_sectors:
+                s_dir = [d for d in sector_dirs if str(s) in d][0]
+                new_sector_dirs.append(s_dir)
+            
+            sector_dirs = new_sector_dirs
+            logging.info("Starting extraction for new sectors")
+            logging.info("-----------------------------------")
+
+    # Exception raised by load_pickle() if the requested file is not found on storage
     except EnvironmentError:
         logging.info("Starting TIC extraction")
+        logging.info("-----------------------")
 
     for sector in sector_dirs:
         n = 0
@@ -183,7 +198,7 @@ def extracttic(light_curves_path, pickle_path, force_extract=False):
         lc_in_sector = len(light_curve_files)
 
         logging.info("Starting {}".format(sector))
-        logging.info("Number of light curves file found : {}".format(lc_in_sector))
+        logging.info("Number of light curve files found : {}".format(lc_in_sector))
         
         for light_curve in light_curve_files:
             light_curve_path = join(sector_dir_path, light_curve)
@@ -204,17 +219,25 @@ def extracttic(light_curves_path, pickle_path, force_extract=False):
                 light_curves[TICID] += [metadata]
             else:
                 light_curves[TICID] = [metadata]
-        
-        lc_number += n
 
         logging.info("Number of light curves added : {}".format(n))
         logging.info("Number of light curves not added : {}".format(e))
     
+    # Add the loaded data to the newly extracted data
+    light_curves.update(existing_data)
+    
     # The number of observed objects is the number of entries in the light_curves dictionary minus one because the key "None" holds the paths to corrupted files
     object_number = len(light_curves) - 1
+    # Count the nomber of light curves
+    lc_number = 0
+    for tic, data in light_curves.items():
+        if tic != None:
+            for lc in data:
+                lc_number += 1
 
     logging.info("Finished extracting data")
-    logging.info("Light curve files processed : {}".format(lc_number))
-    logging.info("Number of objects observed : {}".format(object_number))
+    logging.info("------------------------")
+    logging.info("Total number of light curve files processed : {}".format(lc_number))
+    logging.info("Total number of objects observed : {}".format(object_number))
 
     save_to_pickle(light_curves, pickle_path)
