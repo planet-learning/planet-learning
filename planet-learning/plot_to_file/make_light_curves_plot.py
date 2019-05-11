@@ -93,7 +93,7 @@ def make_light_curves_plot(processed_dir_path):
 
         #Plot to file all light curves
         for (TIC, lc_path) in dict_TIC_IDs.items():
-            make_and_save_light_curve(TIC, lc_path)
+            make_and_save_light_curve(TIC, lc_path, processed_dir_path)
 
         #Display message
         logging.info("Done")
