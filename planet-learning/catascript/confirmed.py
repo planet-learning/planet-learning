@@ -106,8 +106,6 @@ def checks_star_exists_in_database_and_update(processed_catalog_line):
 
         #Database modifications
         if (search_for_Dec_and_Ra):
-            logging.info("Dec/Ra : \n Modifying entry for : {}, with TIC : {}".format(processed_catalog_line["Host name"], processed_catalog_line["TIC"]))
-            
             #Modifying Catalog entry
             search_for_Dec_and_Ra[0].already_confirmed = True
 
@@ -117,6 +115,8 @@ def checks_star_exists_in_database_and_update(processed_catalog_line):
             #Creating or updating a Confirmed entry
             add_or_update_confirmed(processed_catalog_line, search_for_Dec_and_Ra[0])
             
+            logging.info("Dec/Ra : \n Modifying entry for : {}, with TIC : {}".format(processed_catalog_line["Host name"], processed_catalog_line["TIC"]))
+    
     session.commit()
     session.close()
 
