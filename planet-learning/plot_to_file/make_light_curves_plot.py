@@ -23,8 +23,8 @@ def get_TICS_with_confirmed():
 
     Returns
     -------
-        - dict_TIC_IDs : dict
-            The dictionnary containing the (TIC ID, path to light curve) pairs.
+    dict_TIC_IDs : dict
+        The dictionnary containing the (TIC ID, path to light curve) pairs.
     """
     #Query
     session = Session()
@@ -49,12 +49,12 @@ def make_and_save_light_curve(TIC, lc_path, processed_dir_path):
 
     Parameters
     ----------
-        - TIC : int
-            The value of the TIC ID corresponding to the light curve we want to plot
-        - lc_path : string
-            The path to the ligth curve storage on the nfs
-        - processed_dir_path : str
-            Path to the folder of processed data in the nfs
+    TIC : int
+        The value of the TIC ID corresponding to the light curve we want to plot
+    lc_path : string
+        The path to the ligth curve storage on the nfs
+    processed_dir_path : str
+        Path to the folder of processed data in the nfs
     """
     # Getting the file
     logging.info("TIC {} : Tackling {} file".format(TIC, lc_path))
@@ -79,8 +79,8 @@ def make_light_curves_plot(processed_dir_path):
 
     Parameters:
     -----------
-        - processed_dir_path : str
-            Path to the folder of processed data in the nfs
+    processed_dir_path : str
+        Path to the folder of processed data in the nfs
     """
     #Get plotting boolean
     need_to_plot = int(os.getenv("PLOT_TO_FILE"))
