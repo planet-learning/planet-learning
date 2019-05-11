@@ -106,7 +106,7 @@ def checks_star_exists_in_database_and_update(processed_catalog_line):
             processed_catalog_line["TIC"] = search_for_HIP[0].ID 
 
             #Creating or updating a Confirmed entry
-            add_or_update_confirmed(processed_catalog_line, search_for_HIP[0], session)
+            add_or_update_confirmed(processed_catalog_line, search_for_HIP[0])
 
             logging.info("HIP : \n Modifying entry for : {}, with TIC : {}".format(processed_catalog_line["Host name"], processed_catalog_line["TIC"]))
              
@@ -134,7 +134,7 @@ def checks_star_exists_in_database_and_update(processed_catalog_line):
             processed_catalog_line["TIC"] = search_for_Dec_and_Ra[0].ID 
 
             #Creating or updating a Confirmed entry
-            add_or_update_confirmed(processed_catalog_line, search_for_Dec_and_Ra[0], session)
+            add_or_update_confirmed(processed_catalog_line, search_for_Dec_and_Ra[0])
             
             logging.info("Dec/Ra : \n Modifying entry for : {}, with TIC : {}".format(processed_catalog_line["Host name"], processed_catalog_line["TIC"]))
 
