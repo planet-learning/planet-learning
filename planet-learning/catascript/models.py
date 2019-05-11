@@ -106,7 +106,7 @@ class Confirmed(Base):
     catalog_id = Column(Integer, ForeignKey("catalog.ID"))
     related_catalog_entry = relationship("Catalog", back_populates="planets_information")
 
-    def __init__(self, value_fields_dict, related_catalog_entry):
+    def __init__(self, value_fields_dict, catalog_id):
         """
         Creates another entry in the database
 
@@ -114,7 +114,7 @@ class Confirmed(Base):
         ----------
         value_fields_dict: dict
             Dict containing the fields and values of the entry to create
-        related_catalog_entry: int
+        catalog_id: int
             The corresponding catalog entry id
         """
         #Setting the attributes
