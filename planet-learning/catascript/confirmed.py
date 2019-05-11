@@ -94,7 +94,7 @@ def process_confirmed():
     #get the file
     catalog_file = join(os.getenv("DATA_ROOT"), os.getenv("CONFIRMED_DIR"), os.getenv("CONFIRMED_CATALOG_FILE"))
     #get the number of rows in header (skipped in the processing)
-    nb_rows_header = os.getenv("NB_ROWS_HEADER")
+    nb_rows_header = int(os.getenv("NB_ROWS_HEADER"))
 
     #open the file
     with open(catalog_file, newline='') as catalog_csv:
@@ -112,6 +112,3 @@ def process_confirmed():
     #logging.info number of confirmed systems are in database
 
     logging.info("Done : catascript, confirmed catalog")
-
-if __name__ == "__main__":
-    process_confirmed()
