@@ -66,12 +66,12 @@ def add_or_update_confirmed(value_fields_dict, catalog_id):
     try:
         new_entry = Confirmed(value_fields_dict, catalog_id)
         session.add(new_entry)
+        session.commit()
     except (IntegrityError, UniqueViolation):
         #There is already an entry in the database
         host = session.query(Confirmed).filter(Confirmed.TIC == value_fields_dict["TIC"]).limit(1).all()
         host[0].increment_number_planets()
     finally:
-        session.commit()
         session.close()
 
 #Processing functions
