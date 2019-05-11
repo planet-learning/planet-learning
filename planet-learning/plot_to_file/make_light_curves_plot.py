@@ -52,6 +52,7 @@ def make_and_save_light_curve(TIC, lc_path):
             The path to the ligth curve storage on the nfs
     """
     # Getting the file
+    logging.info("TIC {} : Tackling {} file".format(TIC, lc_path))
     fits_file = load(lc_path)
     
     # Opening the data
