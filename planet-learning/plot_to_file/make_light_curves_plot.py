@@ -66,6 +66,7 @@ def make_and_save_light_curve(TIC, lc_path):
 
     #Saving the file to svg
     plt.savefig('{}_light_curve.svg'.format(TIC))
+    plt.close(fig)
 
 def make_light_curves_plot():
     """
