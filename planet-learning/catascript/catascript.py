@@ -140,7 +140,8 @@ def add_entry_to_database(value_fields_dict):
     except (IntegrityError, UniqueViolation):
         #There is already an entry in the database
         pass
-    session.close
+    finally:
+        session.close()
 
 #Statistics displaying
 def display_stats():
