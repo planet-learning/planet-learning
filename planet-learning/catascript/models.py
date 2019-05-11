@@ -103,7 +103,8 @@ class Confirmed(Base):
     Proper_Motion_dec = Column("Proper_Motion_dec", Numeric)
 
     #One to one relationship with Confirmed
-    related_catalog_entry = relationship("Catalog", uselist=False, back_populates="planets_information")
+    catalog_id = Column(Integer, ForeignKey("catalog.ID"))
+    related_catalog_entry = relationship("Catalog", back_populates="planets_information")
 
     def __init__(self, value_fields_dict, related_catalog_entry):
         """
