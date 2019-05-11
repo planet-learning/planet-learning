@@ -5,6 +5,8 @@ import pickle
 from os.path import join
 
 import numpy as np
+from psycopg2.errors import UniqueViolation
+from sqlalchemy.exc import IntegrityError
 
 from .base import Base, Session, engine
 from .models import Catalog, Confirmed
