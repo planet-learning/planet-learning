@@ -100,7 +100,7 @@ def make_light_curves_plot(processed_dir_path):
         logging.info("Processing : plotting to file light curves of TICS with confirmed planets")
 
         #Create a dir if not existent
-        dict_TIC_IDs = get_TICS_with_confirmed()
+        dict_TIC_IDs = get_TICS_with_confirmed_and_info()
 
         #Plot to file all light curves
         for (TIC, info) in dict_TIC_IDs.items():
