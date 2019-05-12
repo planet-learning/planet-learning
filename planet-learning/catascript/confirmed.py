@@ -15,6 +15,7 @@ from .models import Catalog, Confirmed
 """
 catascript.confirmed updates the already_confirmed attribute of the database build by catascript by looking up to the confirmed exoplanets catalog.
 """
+
 #Preprocessing function
 def preprocess_catalog_line(catalog_line):
     """
@@ -64,9 +65,16 @@ def add_or_update_confirmed(value_fields_dict, catalog_id):
     """
     session = Session()
     try:
+        #Querying database
+        check_exists_db = session.query(Confirmed).filter(Confirmed.catalog_id == catalog_id).limit(1).all()
+        if check_exists_db:
+            raise IntegrityError
+
+        #Adding new entry
         new_entry = Confirmed(value_fields_dict, catalog_id)
         session.add(new_entry)
         session.commit()
+        
     except (IntegrityError, UniqueViolation):
         #There is already an entry in the database
         host = session.query(Confirmed).filter(Confirmed.catalog_id == catalog_id).limit(1).all()
