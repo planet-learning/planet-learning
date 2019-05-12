@@ -69,6 +69,11 @@ class Catalog(Base):
         #Idem for planets_information
         self.planets_information = None
 
+    def update_already_confirmed():
+        """
+        Updates the value of already_confirmed to True
+        """
+        self.already_confirmed = True
 class Confirmed(Base):
     """
     Creates a database with following attributes

@@ -96,19 +96,23 @@ def checks_star_exists_in_database_and_update(processed_catalog_line):
         #Database modifications
         if search_for_HIP:
             #Modifying Catalog entry
-            search_for_HIP[0].already_confirmed = True
+            catalog_entry = search_for_HIP[0]
+            catalog_entry.update_already_confirmed()
             session.commit()
             session.close()
             
             #Updating processed_catalog_line
-            #processed_catalog_line["TIC"] = 
-            catalog_id = search_for_HIP[0].ID 
+            catalog_id = catalog_entry.ID 
 
             #Creating or updating a Confirmed entry
             add_or_update_confirmed(processed_catalog_line, catalog_id)
 
             logging.info("HIP : \n Modifying entry for : {}, with TIC : {}".format(processed_catalog_line["Host name"], catalog_id))
-             
+
+        else:
+            #Closing the opened session
+            session.close() 
+
     #Else, we search by ra and dec (in degrees in the database)
     else:
         Ra = float(processed_catalog_line["Ra_deg"])
@@ -123,18 +127,22 @@ def checks_star_exists_in_database_and_update(processed_catalog_line):
         #Database modifications
         if (search_for_Dec_and_Ra):
             #Modifying Catalog entry
-            search_for_Dec_and_Ra[0].already_confirmed = True
+            catalog_entry = search_for_Dec_and_Ra[0]
+            catalog_entry.update_already_confirmed()
             session.commit()
             session.close()
-
+            
             #Updating processed_catalog_line
-            #processed_catalog_line["TIC"] = 
-            catalog_id = search_for_Dec_and_Ra[0].ID 
+            catalog_id = catalog_entry.ID 
 
-            #Creating or updating a Confirmed entry
+            #Creating or updating a Confirmed entry, updating Catalog entry
             add_or_update_confirmed(processed_catalog_line, catalog_id)
             
             logging.info("Dec/Ra : \n Modifying entry for : {}, with TIC : {}".format(processed_catalog_line["Host name"], catalog_id))
+        
+        else:
+            #Closing the opened session
+            session.close()
 
 def process_confirmed():
     """
