@@ -68,10 +68,9 @@ def add_or_update_confirmed(value_fields_dict, catalog_id):
         #Querying database
         check_exists_db = session.query(Confirmed).filter(Confirmed.catalog_id == catalog_id).limit(1).all()
         if check_exists_db:
-            raise IntegrityError
+            raise UniqueViolation
 
         #Adding new entry
-        logging.info(value_fields_dict)
         new_entry = Confirmed(value_fields_dict, catalog_id)
         session.add(new_entry)
         session.commit()
@@ -94,7 +93,7 @@ def checks_star_exists_in_database_and_update(processed_catalog_line):
         the dict containing the processed catalog line
 
     """
-    HIP_identifier = processed_catalog_line["HIP Name"]
+    HIP_identifier = processed_catalog_line["HIP_Name"]
 
     #If there is an HIP identifier    
     if HIP_identifier:

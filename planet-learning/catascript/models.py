@@ -132,7 +132,7 @@ class Confirmed(Base):
         #Linking to the corresponding catalog entry
         self.catalog_id = catalog_id
 
-    def increment_number_planets():
+    def increment_number_planets(self):
         """
         Increments by one the number of planets of an entry
         """
