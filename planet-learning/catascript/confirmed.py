@@ -92,12 +92,10 @@ def checks_star_exists_in_database_and_update(processed_catalog_line):
         HIP_identifier = int(HIP_identifier.split(' ')[1])
         session = Session() 
         search_for_HIP = session.query(Catalog).filter(Catalog.HIP == HIP_identifier).limit(1).all()
-        session.close()
 
         #Database modifications
         if search_for_HIP:
             #Modifying Catalog entry
-            session = Session()
             search_for_HIP[0].already_confirmed = True
             session.commit()
             session.close()
@@ -121,12 +119,10 @@ def checks_star_exists_in_database_and_update(processed_catalog_line):
         session = Session()
         search_for_Ra = session.query(Catalog).filter(Catalog.ra > Ra-accepted_error_margin).filter(Catalog.ra < Ra + accepted_error_margin)
         search_for_Dec_and_Ra = search_for_Ra.filter(Catalog.dec > Dec-accepted_error_margin).filter(Catalog.dec < Dec + accepted_error_margin).limit(1).all()
-        session.close()
 
         #Database modifications
         if (search_for_Dec_and_Ra):
             #Modifying Catalog entry
-            session = Session()
             search_for_Dec_and_Ra[0].already_confirmed = True
             session.commit()
             session.close()
