@@ -11,6 +11,8 @@ services:
       POSTGRES_DB: planet-learning-postgresql
     restart: unless-stopped
     volumes:
+      - "/etc/timezone:/etc/timezone:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - /planet-learning/postgres-data:/var/lib/postgresql/data
   planet-learning-tensorboard:
     build:
@@ -19,6 +21,8 @@ services:
     ports:
       - 6006:6006
     volumes:
+      - "/etc/timezone:/etc/timezone:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - type: bind
         source: ./
         target: /planet-learning
@@ -27,6 +31,8 @@ services:
       context: ./
       dockerfile: ./docker/code/Dockerfile
     volumes:
+      - "/etc/timezone:/etc/timezone:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       - type: bind
         source: ./
         target: /planet-learning/code
