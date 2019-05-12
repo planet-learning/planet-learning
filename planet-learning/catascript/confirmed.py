@@ -65,7 +65,7 @@ def add_or_update_confirmed(value_fields_dict, catalog_id):
     """
     session = Session()
     try:
-        #Querying database
+        #Querying database to see if the entry already exists (a planet from the same system was treated before)
         check_exists_db = session.query(Confirmed).filter(Confirmed.catalog_id == catalog_id).limit(1).all()
         if check_exists_db:
             raise UniqueViolation
@@ -76,9 +76,9 @@ def add_or_update_confirmed(value_fields_dict, catalog_id):
         session.commit()
 
     except (IntegrityError, UniqueViolation):
-        #There is already an entry in the database
-        host = session.query(Confirmed).filter(Confirmed.catalog_id == catalog_id).limit(1).all()
-        host[0].increment_number_planets()
+        #There is already an entry in the database : we do nothing
+        pass
+
     finally:
         session.close()
 

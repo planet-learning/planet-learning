@@ -126,15 +126,7 @@ class Confirmed(Base):
         for (key, value) in value_fields_dict.items():
             setattr(self, key, value)
 
-        #Initializing number of planets
-        self.Number_planets_in_system = 1
-
         #Linking to the corresponding catalog entry
         self.catalog_id = catalog_id
 
-    def increment_number_planets(self):
-        """
-        Increments by one the number of planets of an entry
-        """
-        self.Number_planets_in_system = self.Number_planets_in_system + 1
         
