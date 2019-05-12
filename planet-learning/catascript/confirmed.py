@@ -115,7 +115,7 @@ def checks_star_exists_in_database_and_update(processed_catalog_line):
             #Creating or updating a Confirmed entry
             add_or_update_confirmed(processed_catalog_line, catalog_id)
 
-            logging.info("HIP : \n Modifying entry for : {}, with TIC : {}".format(processed_catalog_line["Host name"], catalog_id))
+            logging.info("HIP : \n Modifying entry for : {}, with TIC : {}".format(processed_catalog_line["Host_name"], catalog_id))
 
         except (IndexError):
             #Closing the opened session
@@ -145,7 +145,7 @@ def checks_star_exists_in_database_and_update(processed_catalog_line):
             #Creating or updating a Confirmed entry, updating Catalog entry
             add_or_update_confirmed(processed_catalog_line, catalog_id)
             
-            logging.info("Dec/Ra : \n Modifying entry for : {}, with TIC : {}".format(processed_catalog_line["Host name"], catalog_id))
+            logging.info("Dec/Ra : \n Modifying entry for : {}, with TIC : {}".format(processed_catalog_line["Host_name"], catalog_id))
         
         except (IndexError):
             #Closing the opened session

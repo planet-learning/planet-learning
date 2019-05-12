@@ -131,7 +131,7 @@ Please fin below an example of a filled out `.env` file *CODE VARIABLES*, that s
 ```
 LIST_DB_FIELDS=ID,version,HIP,TYC,UCAC,TWOMASS,SDSS,ALLWISE,GAIA,APASS,KIC,objType,typeSrc,ra,dec
 OTHER_MISSIONS_IDS=HIP,TYC,UCAC,TWOMASS,SDSS,ALLWISE,GAIA,APASS,KIC
-LIST_CONFIRMED_FIELDS=Host name,Planet Letter,Planet Name,Discovery Method,Controversial flag,Number planets in system,Ra_sex,Ra_deg,Dec_sex,Dec_deg,HIP Name,Proper Motion (ra),Proper Motion(dec)
+LIST_CONFIRMED_FIELDS=Host_name,Planet_Letter,Planet_Name,Discovery_Method,Controversial_flag,Number_planets_in_system,Orbital_Period,Ra_sex,Ra_deg,Dec_sex,Dec_deg,HIP_Name,Proper_Motion_RA,Proper_Motion_DEC
 NB_ROWS_HEADER=26
 ENGINE_URL=postgresql://planet:learning@planet-learning-database/planet-learning-postgresql
 ```
