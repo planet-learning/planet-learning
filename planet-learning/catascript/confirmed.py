@@ -71,10 +71,11 @@ def add_or_update_confirmed(value_fields_dict, catalog_id):
             raise IntegrityError
 
         #Adding new entry
+        logging.info(value_fields_dict)
         new_entry = Confirmed(value_fields_dict, catalog_id)
         session.add(new_entry)
         session.commit()
-        
+
     except (IntegrityError, UniqueViolation):
         #There is already an entry in the database
         host = session.query(Confirmed).filter(Confirmed.catalog_id == catalog_id).limit(1).all()
