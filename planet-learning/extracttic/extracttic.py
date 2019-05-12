@@ -175,15 +175,19 @@ def extracttic(light_curves_path, pickle_path, force_extract=False):
         else:
             new_sectors = sectors.difference(existing_sectors)
             logging.info("New sectors available : {}".format(new_sectors))
-            new_sector_dirs = []
+            if force_extract:
+                logging.info("Extracting TIC again anyway")
+                logging.info("----------------------")
+            else:
+                new_sector_dirs = []
 
-            for s in new_sectors:
-                s_dir = [d for d in sector_dirs if str(s) in d][0]
-                new_sector_dirs.append(s_dir)
-            
-            sector_dirs = new_sector_dirs
-            logging.info("Starting extraction for new sectors")
-            logging.info("-----------------------------------")
+                for s in new_sectors:
+                    s_dir = [d for d in sector_dirs if str(s) in d][0]
+                    new_sector_dirs.append(s_dir)
+                
+                sector_dirs = new_sector_dirs
+                logging.info("Starting extraction for new sectors")
+                logging.info("-----------------------------------")
 
     # Exception raised by load_pickle() if the requested file is not found on storage
     except EnvironmentError:
