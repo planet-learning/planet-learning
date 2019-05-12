@@ -60,12 +60,12 @@ def make_and_save_light_curve(TIC, info, processed_dir_path):
     processed_dir_path : str
         Path to the folder of processed data in the nfs
     """
-    # Getting the file
-    logging.info("TIC {} : Tackling {} file".format(TIC, lc_path))
-    
     # Unpacking info
     (lc_path, name, method) = info
 
+    # Getting the file
+    logging.info("TIC {} : Tackling {} file".format(TIC, lc_path))
+    
     # Opening the data
     with fits.open(lc_path, mode="readonly") as hdulist:
         tess_bjds = hdulist[1].data['TIME']
