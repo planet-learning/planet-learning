@@ -78,7 +78,7 @@ class Confirmed(Base):
     """
     Creates a database with following attributes
 
-    TIC [Integer] (primary key)
+    ID [Integer] (primary key)
     Host_name [Varchar(40)]
     Discovery_Method [Varchar(50)]
     Controversial_flag [integer]

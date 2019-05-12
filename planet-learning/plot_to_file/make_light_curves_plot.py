@@ -36,7 +36,7 @@ def get_TICS_with_confirmed_and_info():
 
     for catalog_entry in TIC_query:
         #Querying more info
-        info_query = session.query(Confirmed).filter(Confirmed.TIC == TIC.ID).limit(1)
+        info_query = session.query(Confirmed).filter(Confirmed.catalog_id == catalog_entry.ID).limit(1)
         confirmed_entry = info_query[0]
 
         dict_TIC_IDs[catalog_entry.ID] = (catalog_entry.path, confirmed_entry.Host_name, confirmed_entry.Discovery_method)
