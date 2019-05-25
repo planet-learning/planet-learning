@@ -93,63 +93,33 @@ def checks_star_exists_in_database_and_update(processed_catalog_line):
         the dict containing the processed catalog line
 
     """
-    HIP_identifier = processed_catalog_line["HIP_Name"]
+    Ra = float(processed_catalog_line["Ra_deg"])
+    Dec = float(processed_catalog_line["Dec_deg"])
+    accepted_error_margin = 0.000001
 
-    #If there is an HIP identifier    
-    if HIP_identifier:
-        HIP_identifier = int(HIP_identifier.split(' ')[1])
-        session = Session() 
-        try:
-            search_for_HIP = session.query(Catalog).filter(Catalog.HIP == HIP_identifier).limit(1).all()
+    session = Session()
+    try:
+        #Queries
+        search_for_Ra = session.query(Catalog).filter(Catalog.ra > Ra-accepted_error_margin).filter(Catalog.ra < Ra + accepted_error_margin)
+        search_for_Dec_and_Ra = search_for_Ra.filter(Catalog.dec > Dec-accepted_error_margin).filter(Catalog.dec < Dec + accepted_error_margin).limit(1).all()
 
-            #Modifying Catalog entry
-            catalog_entry = search_for_HIP[0]
-            catalog_entry.update_already_confirmed()
-            catalog_id = catalog_entry.ID 
+        #Modifying Catalog entry
+        catalog_entry = search_for_Dec_and_Ra[0]
+        catalog_entry.update_already_confirmed()
+        catalog_id = catalog_entry.ID 
 
-            #Closing first session
-            session.commit()
-            session.close()
-            
-
-            #Creating or updating a Confirmed entry
-            add_or_update_confirmed(processed_catalog_line, catalog_id)
-
-            logging.info("HIP : \n Modifying entry for : {}, with TIC : {}".format(processed_catalog_line["Host_name"], catalog_id))
-
-        except (IndexError):
-            #Closing the opened session
-            session.close() 
-
-    #Else, we search by ra and dec (in degrees in the database)
-    else:
-        Ra = float(processed_catalog_line["Ra_deg"])
-        Dec = float(processed_catalog_line["Dec_deg"])
-        accepted_error_margin = 0.000001
-
-        session = Session()
-        try:
-            #Queries
-            search_for_Ra = session.query(Catalog).filter(Catalog.ra > Ra-accepted_error_margin).filter(Catalog.ra < Ra + accepted_error_margin)
-            search_for_Dec_and_Ra = search_for_Ra.filter(Catalog.dec > Dec-accepted_error_margin).filter(Catalog.dec < Dec + accepted_error_margin).limit(1).all()
-
-            #Modifying Catalog entry
-            catalog_entry = search_for_Dec_and_Ra[0]
-            catalog_entry.update_already_confirmed()
-            catalog_id = catalog_entry.ID 
-
-            #Closing this first session
-            session.commit()
-            session.close()
-            
-            #Creating or updating a Confirmed entry, updating Catalog entry
-            add_or_update_confirmed(processed_catalog_line, catalog_id)
-            
-            logging.info("Dec/Ra : \n Modifying entry for : {}, with TIC : {}".format(processed_catalog_line["Host_name"], catalog_id))
+        #Closing this first session
+        session.commit()
+        session.close()
         
-        except (IndexError):
-            #Closing the opened session
-            session.close()
+        #Creating or updating a Confirmed entry, updating Catalog entry
+        add_or_update_confirmed(processed_catalog_line, catalog_id)
+        
+        logging.info("Dec/Ra : \n Modifying entry for : {}, with TIC : {}".format(processed_catalog_line["Host_name"], catalog_id))
+    
+    except (IndexError):
+        #Closing the opened session
+        session.close()
 
 def process_confirmed():
     """
