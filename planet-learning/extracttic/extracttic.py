@@ -191,6 +191,7 @@ def extracttic(light_curves_path, pickle_path, force_extract=False):
 
     # Exception raised by load_pickle() if the requested file is not found on storage
     except EnvironmentError:
+        existing_data = {}
         logging.info("Starting TIC extraction")
         logging.info("-----------------------")
 
