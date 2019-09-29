@@ -1,6 +1,8 @@
 # Planet Learning
 
-Exoplanet detection machine learning academic project, using [TensorFlow](https://www.tensorflow.org/) module Keras and running on [Docker](https://www.docker.com/).
+Academic project that had for initial aim to use machine learning to detect exoplanets, with [TESS](https://fr.wikipedia.org/wiki/Transiting_Exoplanet_Survey_Satellite) satellite being the main data source, relying on [TensorFlow](https://www.tensorflow.org/)'s module Keras running on [Docker](https://www.docker.com/). 
+
+> As of now, this project allows for extracting and cleaning the data, puting it in a Postgres database, and storing graphs of some interesting light curves.
 
 ## Getting Started
 
